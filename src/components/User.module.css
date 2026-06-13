@@ -1,0 +1,36 @@
+.user {
+  position: absolute;
+  top: 1rem;
+  right: .5rem;
+  background-color: rgb(36, 42, 46);
+  padding: .6rem 1rem;
+  border-radius: 7px;
+  z-index: 999;
+  box-shadow: 0 0.8rem 2.4rem rgba(36, 42, 46, 0.5);
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  color: #fff;
+}
+
+.user img {
+  border-radius: 100px;
+  height: 4rem;
+}
+
+.user button {
+  background-color: rgb(51, 66, 75);
+  border-radius: 7px;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}

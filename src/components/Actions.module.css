@@ -1,0 +1,25 @@
+.actions {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-self: center;
+  border: var(--color-border-1) 1px solid;
+  border-radius: 15px;
+  width: 50%;
+  height: fit-content;
+  padding-bottom: 10px;
+  background-color: #192033;
+  gap: 10px;
+}
+
+.actions p {
+  font-size: 28px;
+  color: #fff;
+  text-align: center;
+  margin-top: 3px;
+}
+
+.actions-buttons {
+  display: flex;
+  gap: 5px;
+}

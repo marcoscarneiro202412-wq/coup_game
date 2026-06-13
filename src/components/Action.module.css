@@ -1,0 +1,39 @@
+.action {
+  display: flex;
+  flex-direction: column;
+  margin: 0 15px;
+  background: linear-gradient(135deg, #c09b3e 0%, #8b6d20 75%, #4a3a11 100%);
+  border-radius: 15px;
+  padding: 7px;
+  width: 90px;
+  cursor: pointer;
+  gap: 5px;
+  transition: all .3s ease;
+}
+
+.action span {
+  text-align: center;
+  font-size: 42px;
+}
+
+.action h2 {
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
+}
+
+.action p {
+  font-size: 16px;
+  color: #ddd;
+  text-align: center;
+}
+
+.action:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #d9b046 0%, #a37f26 75%, #6f571a 100%);
+}
+
+.action[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,31 @@
+.characters {
+  position: absolute;
+  top: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transform: translateY(-40%);
+  left: 1%;
+  padding: 5px;
+  gap: 15px;
+  color: #fff;
+  border-radius: 15px;
+  border-image: linear-gradient(135deg, #d4af37 0%, #f4d35e 50%, #d4af37 100%) 1;
+  box-shadow: 0 0 15px 3px rgba(212, 175, 55, 0.6);
+  background: linear-gradient(180deg, #ffdb65 0%, #d0bf80 50%, #cbb367 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.players {
+  display: grid;
+  gap: 25px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.players img {
+  border-radius: 10px;
+  width: 150px;
+  height: 300px;
+}

@@ -1,0 +1,28 @@
+.player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 25px;
+  border-image: linear-gradient(135deg, #d4af37 0%, #f4d35e 50%, #d4af37 100%) 1;
+  box-shadow: 0 0 15px 3px rgba(212, 175, 55, 0.6);
+  background: linear-gradient(180deg, #f8c622 0%, #c7ad4e 50%, #c7a946 100%);
+  justify-self: center;
+  align-self: center;
+  padding: 35px;
+  color: #ffd;
+  gap: 45px;
+  border-radius: 25px;
+  height: auto;
+}
+
+.player img {
+    border-radius: 50%;
+    width: 150px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    gap: 3px;
+}

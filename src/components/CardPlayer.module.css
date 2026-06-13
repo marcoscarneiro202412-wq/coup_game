@@ -1,0 +1,24 @@
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #131a34;
+  padding: 25px;
+  color: #fff;
+  border-radius: 15px;
+  gap: 15px;
+}
+
+.card img {
+  border-radius: 50%;
+  width: 50px;
+}
+
+.active {
+  background: linear-gradient(135deg, #c09b3e 0%, #edd481 50%, #c09b3e 100%);
+  border: #f1d388 0.2px solid;
+}
+
+.active img {
+  border: #ffeab4 0.2px solid;
+}

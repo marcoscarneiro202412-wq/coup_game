@@ -1,0 +1,16 @@
+.indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    font-size: 18px;
+}
+
+.indicator p {
+    color: #7F8497;
+    padding: 5px;
+}
+
+.indicator strong {
+    color: #E5C55F;
+}

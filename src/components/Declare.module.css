@@ -1,0 +1,39 @@
+.declare {
+  display: flex;
+  flex-direction: column;
+  background-color: #232a3d;
+  border: var(--color-border-1) 1px solid;
+  width: 40%;
+  padding: 7px;
+  margin-left: 15px;
+  gap: 15px;
+  border-radius: 15px;
+}
+
+.declare p {
+  text-align: left;
+  padding: 2px;
+  font-size: 20px;
+}
+
+.declare button {
+  padding: 10px;
+  background: linear-gradient(135deg, #c09b3e 0%, #edd481 50%, #c09b3e 100%);
+  color: #17173b;
+  font-weight: bold;
+  border-radius: 15px;
+  border: #f4e3ac 1px solid;
+  margin: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.declare button:hover {
+  background: linear-gradient(135deg, #ecc45f 0%, #eed78e 50%, #ecc45f 100%);
+  transform: scale(1.05);
+}
+
+.declare button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

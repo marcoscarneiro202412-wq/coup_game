@@ -1,0 +1,75 @@
+{
+  "users": [
+    {
+      "name": "Marcos",
+      "email": "marcosmateus0512@gmail.com",
+      "password": "#Marteus123",
+      "avatar": "",
+      "id": "DYaToTqfOi4"
+    },
+    {
+      "name": "ssdss",
+      "email": "dsds@x.zd",
+      "password": "sdeferklkjhgfdsa",
+      "avatar": "",
+      "id": "foGmTouvmbQ"
+    },
+    {
+      "name": "fgrthlkuytr",
+      "email": "lgfdts@3cvbzyxdf",
+      "password": "rtdfguh",
+      "avatar": "",
+      "id": "oFWmcBmKYAQ"
+    },
+    {
+      "name": "fydthsr",
+      "email": "kjdfrsd@s",
+      "password": "nkjbvhycdtre",
+      "avatar": "",
+      "id": "Zazrz734mRU"
+    },
+    {
+      "name": "lkfguhdg",
+      "email": "hlkcgxfd@wazasxdrct",
+      "password": "dghsdaf",
+      "avatar": "",
+      "id": "2IzznhAKr48"
+    },
+    {
+      "name": "asdtfy",
+      "email": "ASDFGHJ@SD",
+      "password": "GVKG.L JBÇHB,JVKK",
+      "avatar": "GXJJIDGHDJUTKG.HVUYIO",
+      "id": "t5Itp21oDbI"
+    },
+    {
+      "name": "gjvhcgxfdzs",
+      "email": "gvcfxdzsds\\",
+      "password": "hgufdtsrea",
+      "avatar": "",
+      "id": "ispSxx_-y1k"
+    },
+    {
+      "name": "fydtsr",
+      "email": "yfdthrsg",
+      "password": "ugfydtrse",
+      "avatar": "",
+      "id": "vuSM3CL2S04"
+    },
+    {
+      "name": "awserdf",
+      "email": "yfdthrsgfdfd@x.",
+      "password": "ugfydtrsedfdfrrtg",
+      "avatar": "",
+      "id": "8omqhpcPaKg"
+    },
+    {
+      "name": "kugjhkdluli",
+      "email": "yfdthrsg@x.c",
+      "password": "ugfydtrse",
+      "avatar": "",
+      "id": "7Mh93CxB8ww"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
