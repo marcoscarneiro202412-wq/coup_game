@@ -10,7 +10,7 @@ function User() {
   const user = useSelector((st) => st.auth.user);
   const dispatch = useDispatch();
 
-  const [src, setSrc] = useState(user.avatar);
+  const [src, setSrc] = useState(user.avatar ?? "https://i.pinimg.com/236x/02/72/35/02723528ae01d17bbf67ccf6b8da8a6b.jpg");
 
   function handleClick(e) {
     e.preventDefault();
@@ -21,10 +21,10 @@ function User() {
   return (
     <div className={styles.user}>
       <img
-        onError={() =>
+        onError={() => {
           setSrc(
             "https://i.pinimg.com/236x/02/72/35/02723528ae01d17bbf67ccf6b8da8a6b.jpg",
-          )
+          )}
         }
         src={src}
         alt={user.name}
