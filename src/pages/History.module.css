@@ -1,7 +1,8 @@
 .history {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  overflow-x: hidden;
   background-color: #101934;
   gap: 25px;
 }

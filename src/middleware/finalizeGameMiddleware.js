@@ -30,16 +30,21 @@ finalizeGameMiddleware.startListening({
 
     const user = await res.json();
 
-    if (auth.user) listener.dispatch(defineUser(user));
+    if (auth.user)
+      listener.dispatch(
+        defineUser(
+          user["_id"],
+          user.name,
+          user.email,
+          user.avatar,
+          user.history,
+        ),
+      );
     listener.dispatch(cleanThePlayers());
     setItem("players", { players: [] });
     setItem("turn", {
       currentTurn: 0,
       round: 1,
-    });
-    setItem("auth", {
-      user: null,
-      isAuthenticated: false,
     });
     setItem("game", {
       status: "waiting",

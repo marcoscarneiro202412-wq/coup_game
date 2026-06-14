@@ -6,14 +6,17 @@
 .auth {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #424e5e 0%, #363d45 50%, #22262f 100%);
+  background-color: #101934;
   min-height: 100vh;
+  overflow-x: hidden;
   justify-content: center;
   align-items: center;
   gap: 55px;
+  padding-bottom: 45px;
 }
 
 .principal {
+  box-sizing: border-box;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -53,7 +56,7 @@
 .form > input {
   width: 26vw;
   font-size: 21px;
-  background: #00000000;
+  background: #E8F0FE;
   color: white;
   border: 0.5px solid #00000031;
   border-radius: 15px;

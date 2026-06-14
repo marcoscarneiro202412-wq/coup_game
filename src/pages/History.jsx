@@ -5,25 +5,28 @@ import NavBar from "../components/NavBar";
 import { deleteHistory } from "../features/auth/authSlice";
 
 function History() {
-  const { history, id } = useSelector((s) => s.auth.user);
   const dispatch = useDispatch();
-  try {
-    if (!history) return <Navigate to={"/"} />;
+  const { user, isLoading } = useSelector((s) => s.auth);
+  if (!user) return <Navigate to={"/"} />;
+  const { history, id } = user;
 
-    return (
-      <div className={styles.history}>
-        <NavBar />
-        <div className={styles.items}>
-          {history.length ? (
-            history.map((h) => (
+  return (
+    <div className={styles.history}>
+      <NavBar />
+      <div className={styles.items}>
+        {history.length ? (
+          history.map((h) => {
+            console.log(h);
+            return (
               <div className={styles.item} key={h.id}>
                 <div>
                   <h3>{h.id}</h3>
                   <p>Rounds: {h.rounds}</p>
                   <p>Winner: {h.winner}</p>
-                  <p>Data: {h.data}</p>
+                  <p>Data: {h.date}</p>
                 </div>
                 <button
+                  disabled={isLoading}
                   style={{
                     background: "red",
                     border: "1px solid #000",
@@ -35,22 +38,30 @@ function History() {
                     cursor: "pointer",
                   }}
                   onClick={() => {
+                    console.log(h.id, id);
                     dispatch(deleteHistory({ historyId: h.id, playerId: id }));
                   }}
                 >
                   &times;
                 </button>
               </div>
-            ))
-          ) : (
-            <p style={{ color: "#fff" }}>Você Não jogou nenhuma partida</p>
-          )}
-        </div>
+            );
+          })
+        ) : (
+          <p
+            style={{
+              color: "#fff",
+              textAlign: "center",
+              alignSelf: "center",
+              fontSize: "22px",
+            }}
+          >
+            ❌ Você Não jogou nenhuma partida
+          </p>
+        )}
       </div>
-    );
-  } catch {
-    return <Navigate to={"/"} />;
-  }
+    </div>
+  );
 }
 
 export default History;

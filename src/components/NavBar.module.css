@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-around;
   background-color: #101934;
-  width: 100%;
+  width: 100vw;
   height: fit-content;
   padding: 15px;
   overflow-y: hidden;

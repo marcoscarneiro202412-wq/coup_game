@@ -17,8 +17,8 @@ function Login({ isLoginPage }) {
 
   return (
     <>
-      <NavBar />
       <div className={styles.auth}>
+        <NavBar />
         <div className={styles.principal}>
           <h1>{isLoginPage ? "Login" : "Signup"}</h1>
           <form className={styles.form}>
@@ -88,7 +88,7 @@ function Login({ isLoginPage }) {
                 }
               }}
             >
-              Login
+              {isLoginPage ? "Login" : "Signup"}
             </button>
             {
               <p
