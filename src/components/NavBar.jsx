@@ -1,10 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./NavBar.module.css";
 
 function NavBar() {
+  const navigate = useNavigate();
   return (
     <nav className={styles.nav}>
-      <div className={styles.logo}>
+      <div className={styles.logo} onClick={() => navigate("/")}>
         <img src="/assets/logo.png" alt="Logo do coup" />
         <p className={styles.title}>COUP</p>
       </div>
