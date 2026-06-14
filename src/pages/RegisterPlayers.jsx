@@ -18,7 +18,7 @@ function RegisterPlayers() {
   const dispatch = useDispatch();
 
   if (!isAuthenticated) return <Navigate to={"/"} />;
-  
+
   return (
     <div className={styles.register}>
       <User />
@@ -41,6 +41,10 @@ function RegisterPlayers() {
         className={styles.form}
         onSubmit={(e) => {
           e.preventDefault();
+          if (players.some((p) => p.name === nameRef.current.value)) {
+            alert("Não coloque nomes iguais");
+            return;
+          }
           dispatch(
             createPlayer(nameRef.current.value, imgUrlRef.current.value),
           );

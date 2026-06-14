@@ -14,7 +14,7 @@ function Actions() {
   const { players } = useSelector((st) => st.players);
   const { currentTurn } = useSelector((st) => st.turn);
   const player = players[currentTurn % players.length];
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   if (!player) return null;
   const actions = [
     {
@@ -25,9 +25,9 @@ function Actions() {
         if (player.money < 7) return;
         const person = prompt("Escolha uma pessoa para retirar uma vida");
         const target = players.find((c) => c.name === person);
-        console.log(person);
-        if (target) {
-          return coupDEtat(player.id, target.id);
+        console.log(player);
+        if (target && target.name !== player.name) {
+          dispatch(coupDEtat(player.id, target.id));
         }
       },
     },
@@ -35,20 +35,24 @@ function Actions() {
       name: "Bargain",
       emote: "↔️",
       cost: 6,
-      method: () => {if(player.money >= 6)dispatch(bargain(player.id))},
+      method: () => {
+        if (player.money >= 6) dispatch(bargain(player.id));
+      },
     },
     {
       name: "Ritual",
       emote: "🪦",
       cost: 18,
       disabled: player.hp >= 5,
-      method: () => {if(player.money >= 18) dispatch(giveALive(player.id))},
+      method: () => {
+        if (player.money >= 18) dispatch(giveALive(player.id));
+      },
     },
     {
       name: "Pedir Auxilio",
       emote: "🪙",
       cost: 0,
-      method: () => auxilio(player.id),
+      method: () => dispatch(auxilio(player.id)),
     },
   ];
 

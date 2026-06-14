@@ -103,16 +103,22 @@ function Login({ isLoginPage }) {
               </p>
             }
 
-            <p
-              style={{ textAlign: "center", color: "#fff", cursor: "pointer" }}
-              onClick={() => {
-                navigate(isLoginPage ? "/signup" : "/login");
-              }}
-            >
-              {isLoginPage
-                ? "Não tem uma conta? Clique aqui para ir para signup"
-                : "Já tem uma conta? Clique aqui para ir para login"}
-            </p>
+            {!isLoading && (
+              <p
+                style={{
+                  textAlign: "center",
+                  color: "#fff",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  navigate(isLoginPage ? "/signup" : "/login");
+                }}
+              >
+                {isLoginPage
+                  ? "Não tem uma conta? Clique aqui para ir para signup"
+                  : "Já tem uma conta? Clique aqui para ir para login"}
+              </p>
+            )}
           </form>
         </div>
       </div>

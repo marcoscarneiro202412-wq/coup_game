@@ -30,6 +30,7 @@ playerInteractMiddleware.startListening({
         ) {
           listener.dispatch(takeTheMoney(player.id, 3));
           const target = prompt("Quem você quer matar? (Digite cada letra)");
+          if(target === player.name) {console.log("deu um bagui");return;}
           const playerTarget = players.find((p) => p.name === target);
           if (!playerTarget.characters.some((c) => c.id === "contessa")) {
             listener.dispatch(killPlayer(playerTarget.id));
