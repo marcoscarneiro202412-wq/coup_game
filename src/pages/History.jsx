@@ -38,7 +38,7 @@ function History() {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    console.log(h.id, id);
+                    if (!isLoading) return;
                     dispatch(deleteHistory({ historyId: h.id, playerId: id }));
                   }}
                 >

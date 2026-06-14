@@ -47,9 +47,21 @@ const authSlice = createSlice({
       sta.isLoading = false;
       return sta;
     },
+    resetPage(sta) {
+      sta.isLoading = false;
+      sta.error = "";
+    },
   },
 });
 
 export default authSlice.reducer;
-export const { defineUser, logout, login, signup, fetchingTheData, setError, deleteHistory } =
-  authSlice.actions;
+export const {
+  defineUser,
+  logout,
+  login,
+  signup,
+  fetchingTheData,
+  setError,
+  deleteHistory,
+  resetPage,
+} = authSlice.actions;

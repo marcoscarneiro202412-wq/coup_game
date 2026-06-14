@@ -5,8 +5,15 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import AuthPage from "./pages/AuthPage";
 import History from "./pages/History";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { resetPage } from "./features/auth/authSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(resetPage());
+  }, [dispatch]);
   return (
     <div>
       <BrowserRouter>
