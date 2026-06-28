@@ -1,5 +1,5 @@
 import { createListenerMiddleware } from "@reduxjs/toolkit";
-import { nextTurn } from "../features/game/turnSlice";
+import { defineTurn } from "../features/game/turnSlice";
 
 const nextTurnMiddleware = createListenerMiddleware();
 
@@ -15,8 +15,10 @@ nextTurnMiddleware.startListening({
     return actionsForNextTurn.includes(act.type.split("/").at(1));
   },
   effect: (_, listener) => {
-    const { players } = listener.getState();
-    listener.dispatch(nextTurn(players.players.length));
+    const { players, turn } = listener.getState();
+    let idx = turn.currentTurn + 1;
+    if (idx >= players.players.length) idx = 0;
+    listener.dispatch(defineTurn(idx));
   },
 });
 
