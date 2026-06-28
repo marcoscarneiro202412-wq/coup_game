@@ -1,0 +1,3 @@
+const ASSASSIN_COST = 12;
+
+export {ASSASSIN_COST};
