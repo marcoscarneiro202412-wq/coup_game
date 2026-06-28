@@ -4,7 +4,6 @@ import gameReducer from "../features/game/gameSlice";
 import turnReducer from "../features/game/turnSlice";
 import hpListenerMiddleware from "../middleware/hpListenerMiddleware";
 import nextTurnMiddleware from "../middleware/nextTurnMiddleware";
-import playerInteractMiddleware from "../middleware/playerInteractMiddleware";
 import authMiddleware from "../middleware/authMiddleware";
 import authReducer from "../features/auth/authSlice";
 import interceptMiddleware from "../middleware/interceptMiddleware";
@@ -21,7 +20,6 @@ const store = configureStore({
     getDefault().concat(
       hpListenerMiddleware.middleware,
       nextTurnMiddleware.middleware,
-      playerInteractMiddleware.middleware,
       authMiddleware.middleware,
       interceptMiddleware.middleware,
       finalizeGameMiddleware.middleware

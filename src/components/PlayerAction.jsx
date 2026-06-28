@@ -3,13 +3,13 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import {  useSelector } from "react-redux";
 
-function KillPlayer({ playerId, action }) {
+function ActionPlayer({ playerId, action, title="Kill" }) {
   const [player, setPlayer] = useState(0);
   const { players } = useSelector((s) => s.players);
 
   return (
     <div className={styles.declare}>
-      <p>Kill Player</p>
+      <p>{title} Player</p>
       <FormControl fullWidth sx={{ color: "#fff" }}>
         <InputLabel sx={{ color: "#fff" }} id="demo-simple-select-label">
           Players
@@ -39,9 +39,9 @@ function KillPlayer({ playerId, action }) {
         } else {
             alert("Jogador não encontrado φ(*￣0￣)")
         }
-      }}>Kill</button>
+      }}>{title}</button>
     </div>
   );
 }
 
-export default KillPlayer;
+export default ActionPlayer;

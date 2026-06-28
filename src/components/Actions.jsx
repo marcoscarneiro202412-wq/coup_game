@@ -11,7 +11,7 @@ import Action from "./Action";
 import Confront from "./Confront";
 import { useState } from "react";
 import Modal from "./Modal";
-import KillPlayer from "./KillPlayer";
+import PlayerAction from "./PlayerAction";
 
 function Actions() {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,7 +66,7 @@ function Actions() {
         <Confront playerId={player.id} />
       </div>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <KillPlayer
+        <PlayerAction
           playerId={player.id}
           action={(attackedPlayer) => {
             dispatch(coupDEtat(player.id, attackedPlayer));
