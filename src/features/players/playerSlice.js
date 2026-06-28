@@ -127,6 +127,8 @@ const players = createSlice({
           (p) => p.id === act.payload.confrontedId,
         );
 
+        if(!confrontedPlayer || !confronterPlayer) return;
+
         if (confrontedPlayer.declaredCharacter.id !== undefined) return;
         if (
           confrontedPlayer.characters
@@ -159,17 +161,18 @@ const players = createSlice({
       },
 
       reducer(sta, act) {
-        // payload deve ser o id
-        const player = sta.players.findIndex(
+        const playerIdx = sta.players.findIndex(
           (p) => p.id === act.payload.playerId,
         );
-        console.log(sta.players.at(player).money < 7);
-        if (sta.players.at(player).money < 7) return;
+
+        if(playerIdx === -1) return;
+
+        if (sta.players.at(playerIdx).money < 7) return;
         const enemy = sta.players.findIndex(
           (p) => p.id === act.payload.enemyId,
         );
 
-        sta.players.at(player).money -= 7;
+        sta.players.at(playerIdx).money -= 7;
         sta.players.at(enemy).hp -= 1;
         if (sta.players.at(enemy).hp <= 0) {
           sta.players.at(enemy).alive = false;

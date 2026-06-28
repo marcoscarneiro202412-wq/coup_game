@@ -9,8 +9,12 @@ import {
 } from "../features/players/playerSlice";
 import Action from "./Action";
 import Confront from "./Confront";
+import { useState } from "react";
+import Modal from "./Modal";
+import KillPlayer from "./KillPlayer";
 
 function Actions() {
+  const [isOpen, setIsOpen] = useState(false);
   const { players } = useSelector((st) => st.players);
   const { currentTurn } = useSelector((st) => st.turn);
   const player = players[currentTurn % players.length];
@@ -23,12 +27,7 @@ function Actions() {
       cost: 7,
       method: () => {
         if (player.money < 7) return;
-        const person = prompt("Escolha uma pessoa para retirar uma vida");
-        const target = players.find((c) => c.name === person);
-        console.log(player);
-        if (target && target.name !== player.name) {
-          dispatch(coupDEtat(player.id, target.id));
-        }
+        setIsOpen(true);
       },
     },
     {
@@ -66,6 +65,15 @@ function Actions() {
         ))}
         <Confront playerId={player.id} />
       </div>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <KillPlayer
+          playerId={player.id}
+          action={(attackedPlayer) => {
+            dispatch(coupDEtat(player.id, attackedPlayer));
+            setIsOpen(false);
+          }}
+        />
+      </Modal>
     </div>
   );
 }
