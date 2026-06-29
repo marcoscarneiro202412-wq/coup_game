@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { characters } from "../../data/characters";
 import { generateCharacter } from "../../domain/gamesRules";
 import { ambassadorCharacterAction } from "../../domain/actions";
 
@@ -169,25 +168,25 @@ const players = createSlice({
     },
 
     bargain(sta, act) {
-      const idx = sta.players.findIndex((p) => p.id === act.payload);
-      if (sta.players.at(idx).money < 6) return;
-      sta.players.at(idx).money -= 6;
+      const player = sta.players.find((p) => p.id === act.payload);
+      if (player.money < 6) return;
 
-      const charactersDisponibles = characters.slice();
-      const newCharacters = [];
+      players.caseReducers.takeTheMoney(
+        sta,
+        players.actions.takeTheMoney(player.id, 6),
+      );
 
-      for (let i = 0; i <= sta.players[idx].characters.length; i++) {
-        const newIdx = Math.floor(Math.random() * charactersDisponibles.length);
-        newCharacters.push(charactersDisponibles[newIdx]);
-        charactersDisponibles.splice(newIdx, 1);
-      }
-      newCharacters.shift();
-      sta.players.at(idx).characters = newCharacters;
+      player.characters = generateCharacter(
+        player.characters.length,
+        player.characters,
+      );
     },
 
     auxilio(sta, act) {
-      const idx = sta.players.findIndex((p) => p.id === act.payload);
-      sta.players[idx].money += 2;
+      players.caseReducers.giveTheMoney(
+        sta,
+        players.actions.giveTheMoney(act.payload, 2),
+      );
     },
 
     takeTheMoney: {
@@ -196,9 +195,8 @@ const players = createSlice({
       },
 
       reducer(sta, act) {
-        sta.players.at(
-          sta.players.findIndex((p) => p.id === act.payload.playerId),
-        ).money -= act.payload.amount;
+        const player = sta.players.find((p) => p.id === act.payload.playerId);
+        player.money -= Math.min(act.payload.amount, player.money);
       },
     },
 
@@ -208,9 +206,8 @@ const players = createSlice({
       },
 
       reducer(sta, act) {
-        sta.players.at(
-          sta.players.findIndex((p) => p.id === act.payload.playerId),
-        ).money += act.payload.amount;
+        const player = sta.players.find((p) => p.id === act.payload.playerId);
+        player.money += act.payload.amount;
       },
     },
 
@@ -219,16 +216,15 @@ const players = createSlice({
     },
 
     killPlayer(sta, act) {
-      const idx = sta.players.findIndex((p) => p.id === act.payload);
+      const player = sta.players.find((p) => p.id === act.payload);
 
-      if (idx === -1) return;
-
-      sta.players[idx].hp--;
-      sta.players[idx].characters.pop();
-
-      if (sta.players[idx].hp <= 0) {
-        sta.players[idx].alive = false;
+      if (!player) {
+        sta.error = "Jogador não encontrado";
+        return;
       }
+
+      player.hp--;
+      if (player.characters) player.characters.pop();
     },
   },
 });

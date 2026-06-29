@@ -1,12 +1,15 @@
 import { characters } from "../data/characters";
 
-function generateCharacter(quantity, existentCharacters = []) {
+function generateCharacter(quantity, existentCharacters = [], isBargain) {
   const freeCharacters = characters.filter(
     (c) => !existentCharacters.some((ec) => c.id === ec.id),
   );
-  const charactersPiece = [...freeCharacters, ...freeCharacters];
+
+  const isBargainPiece = isBargain ? [] : freeCharacters;
+
+  const charactersPiece = [...freeCharacters, ...isBargainPiece];
   const charactersForSend = [];
-  for (let i = 0; i <= quantity; i++) {
+  for (let i = 0; i < quantity; i++) {
     const character = charactersPiece.at(
       Math.floor(Math.random() * charactersPiece.length),
     );
