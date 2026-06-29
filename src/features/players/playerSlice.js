@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { characters } from "../../data/characters";
+import { generateCharacter } from "../../domain/gamesRules";
 
 const initialState = JSON.parse(localStorage.getItem("players")) ?? {
   players: [],
@@ -34,45 +35,31 @@ const players = createSlice({
       },
     },
     generateCharacterForPlayers(sta) {
-      let charactersSlice = characters.slice();
-
-      sta.players = sta.players.map((p) => {
-        console.log(Math.floor(Math.random() * characters.length));
-        const character = charactersSlice.at(
-          Math.floor(Math.random() * charactersSlice.length),
-        );
-        charactersSlice = charactersSlice.filter((c) => c.id !== character?.id);
+      const characters = generateCharacter(sta.players.length);
+      sta.players = sta.players.map((p, i) => {
         return {
           ...p,
-          characters: [...p.characters, character],
+          characters: [characters[i]],
           alive: true,
           hp: 1,
         };
       });
 
-      console.log(sta.players);
     },
     giveALive(sta, act) {
-      const playerIdx = sta.players.findIndex((p) => p.id === act.payload);
-      if (sta.players.at(playerIdx).money < 18) return;
-      const charactersFree = characters.filter(
-        (c) =>
-          !sta.players[playerIdx].characters.map((c) => c.id).includes(c.id),
-      );
-      const character = charactersFree.at(
-        Math.floor(Math.random() * charactersFree.length),
-      );
+      const player = sta.players.find((p) => p.id === act.payload);
+      if (!player) return;
+      if (sta.players.money < 18) return;
+
+      const [character] = generateCharacter(1, player.characters);
       if (!character) return;
-      sta.players = sta.players.map((p, i) =>
-        i === playerIdx
-          ? {
-              ...p,
-              characters: [...p.characters, character],
-              money: p.money - 18,
-              hp: p.hp + 1,
-            }
-          : p,
-      );
+
+      sta.players[sta.players.indexOf(player)] = {
+        ...player,
+        characters: [...player.characters, character],
+        money: player.money - 18,
+        hp: player.hp + 1,
+      };
     },
     declareCharacter: {
       prepare(playerId, characterId) {
@@ -82,30 +69,27 @@ const players = createSlice({
       },
 
       reducer(sta, act) {
-        const player = sta.players.findIndex(
+        const playerIdx = sta.players.findIndex(
           (p) => p.id === act.payload.playerId,
         );
-        sta.players[player].declaredCharacter = act.payload.characterId;
+
+        sta.players[playerIdx].declaredCharacter = act.payload.characterId;
+
         switch (act.payload.characterId) {
           case "duke":
-            sta.players[player].money += 3;
+            sta.players[playerIdx].money += 3;
             break;
           case "ambassador": {
             if (
-              !sta.players[player].characters.some((c) => c.id === "ambassador")
+              !sta.players[playerIdx].characters.some((c) => c.id === "ambassador")
             )
               return;
-            const charactersDisponibles = characters.slice();
-            const newCharacters = [];
 
-            for (let i = 0; i < sta.players[player].characters.length; i++) {
-              const newIdx = Math.floor(
-                Math.random() * charactersDisponibles.length,
-              );
-              newCharacters.push(charactersDisponibles[newIdx]);
-              charactersDisponibles.splice(newIdx, 1);
-            }
-            sta.players[player].characters = newCharacters;
+            const newCharacters = generateCharacter(
+              sta.players[playerIdx].characters.length,
+            );
+
+            sta.players[playerIdx].characters = newCharacters;
             break;
           }
           default:
@@ -127,7 +111,7 @@ const players = createSlice({
           (p) => p.id === act.payload.confrontedId,
         );
 
-        if(!confrontedPlayer || !confronterPlayer) return;
+        if (!confrontedPlayer || !confronterPlayer) return;
 
         if (confrontedPlayer.declaredCharacter.id !== undefined) return;
         if (
@@ -142,7 +126,6 @@ const players = createSlice({
             return p;
           });
         } else {
-          console.log(confrontedPlayer.declaredCharacter);
           sta.players = sta.players.map((p) => {
             if (p.id === confronterPlayer.id)
               return { ...p, money: p.money + confrontedPlayer.money };
@@ -165,7 +148,7 @@ const players = createSlice({
           (p) => p.id === act.payload.playerId,
         );
 
-        if(playerIdx === -1) return;
+        if (playerIdx === -1) return;
 
         if (sta.players.at(playerIdx).money < 7) return;
         const enemy = sta.players.findIndex(
@@ -229,7 +212,6 @@ const players = createSlice({
 
     removePlayer(sta, act) {
       sta.players = sta.players.filter((p) => p.id !== act.payload);
-      console.log(sta.players);
     },
 
     killPlayer(sta, act) {
