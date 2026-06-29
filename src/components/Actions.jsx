@@ -59,7 +59,7 @@ function Actions() {
     <div className={styles.actions}>
       <p>Actions</p>
       <div className={styles["actions-buttons"]}>
-        <Declare playerId={player.id} />
+        <Declare />
         {actions.map((a, i) => (
           <Action action={a} key={i} money={player.money} />
         ))}
