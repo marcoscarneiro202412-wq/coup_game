@@ -3,77 +3,38 @@ import { characters } from "../data/characters";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  declareCharacter,
-  giveTheMoney,
-  killPlayer,
-  takeTheMoney,
-} from "../features/players/playerSlice";
+import { declareCharacter } from "../features/players/playerSlice";
 
 import Modal from "./Modal";
 import PlayerAction from "./PlayerAction";
-import { ASSASSIN_COST } from "../data/cost_characters";
+import {
+  assassinCharacterAction,
+  captainCharacterAction,
+} from "../domain/actions";
+import verify from "../domain/verifyCharacter";
 
-function Declare({ playerId }) {
+function Declare() {
   const [isOpen, setIsOpen] = useState("");
   const [character, setCharacter] = useState("duke");
   const player = useSelector((st) => st.players.players[st.turn.currentTurn]);
-  const players = useSelector((st) => st.players.players);
   const dispatch = useDispatch();
 
-  const verifyAssassin = () => {
-    if (
-      player.money >= ASSASSIN_COST &&
-      player.characters.some((c) => c.id === "assassin")
-    ) {
-      setIsOpen("assassin");
-    } else {
-      alert(
-        "Declarado o assassino cujo custo ou personagem não tens, por isso, sua rodada será cancelada",
-      );
-    }
-  };
+  if(!player) return;
 
-  const verifyCaptain = () => {
-    if (player.characters.some((c) => c.id === "captain")) {
-      setIsOpen("captain");
-    } else {
-      alert(
-        "Declarado o capitão cujo personagem não tens, por isso, sua rodada será cancelada",
-      );
-    }
-  };
-
+  // eslint-disable-next-line no-unused-vars
   const assassinAction = (attackedPlayerId) => {
-    {
-      dispatch(takeTheMoney(player.id, ASSASSIN_COST));
-      const target = players.find((p) => p.id === attackedPlayerId);
-      if (!target) {
-        alert("O jogador que você digitou não existe! Passando turno");
-        return;
-      }
-      if (!target.characters.some((c) => c.id === "contessa")) {
-        dispatch(killPlayer(attackedPlayerId));
-      } else {
-        alert("A condessa bloqueia sua faca (e seu dinheiro também)");
-      }
-    }
-    dispatch(declareCharacter(playerId, character));
+    assassinCharacterAction(attackedPlayerId, player.id, character);
     setIsOpen("");
   };
 
   const captainAction = (attackedPlayerId) => {
-    const playerTarget = players.find((p) => p.id === attackedPlayerId);
-    if (playerTarget && player.characters.some((c) => c.id === "captain")) {
-      if (playerTarget.money >= 2) dispatch(takeTheMoney(playerTarget.id, 2));
-      dispatch(giveTheMoney(player.id, 2));
-    } else {
-      alert(
-        "Você não tem o capitão ou o Jogador passado não existe passando para o próximo Jogador!",
-      );
-    }
-    dispatch(declareCharacter(playerId, character));
+    captainCharacterAction(attackedPlayerId, player, character);
     setIsOpen("");
+  };
+
+  const actions = {
+    assassin: assassinAction,
+    captain: captainAction,
   };
 
   return (
@@ -102,17 +63,12 @@ function Declare({ playerId }) {
           if (
             characters.some((c) => c.id === character && c.attackOtherPlayer)
           ) {
-            switch (character) {
-              case "assassin":
-                verifyAssassin();
-                break;
-              case "captain":
-                verifyCaptain();
-                break;
-            }
-          } else {
-            dispatch(declareCharacter(playerId, character));
+            const playerCharacter = characters.find(
+              (c) => c.id === character.toLowerCase(),
+            );
+            verify(playerCharacter.id, playerCharacter.cost, player, setIsOpen);
           }
+          dispatch(declareCharacter(player.id, character));
         }}
       >
         Declare
@@ -120,8 +76,8 @@ function Declare({ playerId }) {
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <PlayerAction
           title={isOpen === "assassin" ? "Kill" : "Steal"}
-          playerId={playerId}
-          action={isOpen === "assassin" ? assassinAction : captainAction}
+          playerId={player.id}
+          action={actions[isOpen]}
         />
       </Modal>
     </div>
