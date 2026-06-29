@@ -108,36 +108,37 @@ const players = createSlice({
       },
 
       reducer(sta, act) {
-        const confronterPlayer = sta.players.find(
+        const confronter = sta.players.find(
           (p) => p.id === act.payload.confronterId,
         );
-        const confrontedPlayer = sta.players.find(
+        const confronted = sta.players.find(
           (p) => p.id === act.payload.confrontedId,
         );
 
-        if (!confrontedPlayer || !confronterPlayer) return;
+        if (!confronted || !confronter) {
+          sta.error = "Algum dos jogadores não existe";
+          return;
+        }
 
-        if (confrontedPlayer.declaredCharacter.id !== undefined) return;
-        if (
-          confrontedPlayer.characters
-            .map((c) => c.id)
-            .includes(confrontedPlayer.declaredCharacter)
-        ) {
-          sta.players = sta.players.map((p) => {
-            if (p.id === confrontedPlayer.id)
-              return { ...p, money: p.money + confrontedPlayer.money };
-            if (p.id === confronterPlayer.id) return { ...p, money: 0 };
-            return p;
-          });
+        if (!confronted.declaredCharacter.id) {
+          sta.error = "O jogador confrontado não declarou personagem";
+          return;
+        }
+
+        const confrontIsTrue = confronted.characters.some(
+          (c) => c.id === confronted.declaredCharacter,
+        );
+
+        if (confrontIsTrue) {
+          const amount = Math.floor(confronter.money / 2);
+
+          confronter.money = amount;
+          confronted.money += amount;
         } else {
-          sta.players = sta.players.map((p) => {
-            if (p.id === confronterPlayer.id)
-              return { ...p, money: p.money + confrontedPlayer.money };
+          const amount = Math.floor(confronted.money / 2);
 
-            if (p.id === confrontedPlayer.id) return { ...p, money: 0 };
-
-            return p;
-          });
+          confronter.money += amount;
+          confronted.money = amount;
         }
       },
     },
@@ -148,23 +149,22 @@ const players = createSlice({
       },
 
       reducer(sta, act) {
-        const playerIdx = sta.players.findIndex(
-          (p) => p.id === act.payload.playerId,
-        );
+        const player = sta.players.find((p) => p.id === act.payload.playerId);
 
-        if (playerIdx === -1) return;
-
-        if (sta.players.at(playerIdx).money < 7) return;
-        const enemy = sta.players.findIndex(
-          (p) => p.id === act.payload.enemyId,
-        );
-
-        sta.players.at(playerIdx).money -= 7;
-        sta.players.at(enemy).hp -= 1;
-        if (sta.players.at(enemy).hp <= 0) {
-          sta.players.at(enemy).alive = false;
+        if (!player) {
+          sta.error = "Jogador não encontrado";
+          return;
         }
-        sta.players.at(enemy).characters.pop();
+
+        if (player.money < 7) {
+          sta.error = "Jogador não tem dinheiro para realizar essa ação";
+          return;
+        }
+
+        players.caseReducers.killPlayer(sta, {
+          action: "players/killPlayer",
+          payload: act.payload.enemyId,
+        });
       },
     },
 
