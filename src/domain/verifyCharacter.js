@@ -4,7 +4,7 @@ const verify = (character, cost = 0, player, setIsOpen) => {
     player.characters.some((c) => c.id === character.toLowerCase()) &&
     player.money >= cost
   ) {
-    setIsOpen(character);
+    setIsOpen?.(character);
   } else {
     alert(
       cost === 0
@@ -12,6 +12,11 @@ const verify = (character, cost = 0, player, setIsOpen) => {
         : "Você não tem dinheiro para pagar ou você não tem  o personagem!",
     );
   }
+
+  return (
+    player.characters.some((c) => c.id === character.toLowerCase()) &&
+    player.money >= cost
+  );
 };
 
 export default verify;

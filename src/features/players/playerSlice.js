@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { characters } from "../../data/characters";
 import { generateCharacter } from "../../domain/gamesRules";
+import { ambassadorCharacterAction } from "../../domain/actions";
 
 const initialState = JSON.parse(localStorage.getItem("players")) ?? {
   players: [],
+  error: "",
 };
 
 const players = createSlice({
@@ -19,6 +21,10 @@ const players = createSlice({
       },
 
       reducer(state, action) {
+        if (!action.payload.name) {
+          state.error = "The created player doesn't have a name";
+          return;
+        }
         state.players = [
           ...state.players,
           {
@@ -34,6 +40,7 @@ const players = createSlice({
         ];
       },
     },
+
     generateCharacterForPlayers(sta) {
       const characters = generateCharacter(sta.players.length);
       sta.players = sta.players.map((p, i) => {
@@ -44,15 +51,22 @@ const players = createSlice({
           hp: 1,
         };
       });
-
     },
+
     giveALive(sta, act) {
       const player = sta.players.find((p) => p.id === act.payload);
-      if (!player) return;
-      if (sta.players.money < 18) return;
+      if (!player) {
+        sta.error = "Player not found";
+        return;
+      }
+
+      if (player.money < 18) return;
 
       const [character] = generateCharacter(1, player.characters);
-      if (!character) return;
+      if (!character) {
+        sta.error = "Character not generated";
+        return;
+      }
 
       sta.players[sta.players.indexOf(player)] = {
         ...player,
@@ -61,6 +75,7 @@ const players = createSlice({
         hp: player.hp + 1,
       };
     },
+
     declareCharacter: {
       prepare(playerId, characterId) {
         return {
@@ -75,26 +90,15 @@ const players = createSlice({
 
         sta.players[playerIdx].declaredCharacter = act.payload.characterId;
 
-        switch (act.payload.characterId) {
-          case "duke":
-            sta.players[playerIdx].money += 3;
-            break;
-          case "ambassador": {
-            if (
-              !sta.players[playerIdx].characters.some((c) => c.id === "ambassador")
-            )
-              return;
+        const actions = {
+          duke: () => (sta.players[playerIdx].money += 3),
+          ambassadorCharacterAction: () =>
+            (sta.players[playerIdx] = ambassadorCharacterAction(
+              sta.players[playerIdx],
+            )),
+        };
 
-            const newCharacters = generateCharacter(
-              sta.players[playerIdx].characters.length,
-            );
-
-            sta.players[playerIdx].characters = newCharacters;
-            break;
-          }
-          default:
-            return;
-        }
+        actions[act.payload.characterId]?.();
       },
     },
 
