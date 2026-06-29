@@ -4,16 +4,16 @@ import {
   killPlayer,
   takeTheMoney,
 } from "../features/players/playerSlice";
-import store from "../app/store";
 import verify from "./verifyCharacter";
 import { generateCharacter } from "./gamesRules";
 
-const state = store.getState();
-const dispatch = store.dispatch;
-
-const assassinCharacterAction = (attackedPlayerId, playerId) => {
+const assassinCharacterAction = (
+  attackedPlayerId,
+  playerId,
+  dispatch,
+  players,
+) => {
   {
-    const { players } = state.players;
     dispatch(takeTheMoney(playerId, ASSASSIN_COST));
     const target = players.find((p) => p.id === attackedPlayerId);
     if (!target) {
@@ -28,8 +28,12 @@ const assassinCharacterAction = (attackedPlayerId, playerId) => {
   }
 };
 
-const captainCharacterAction = (attackedPlayerId, player) => {
-  const { players } = state.players;
+const captainCharacterAction = (
+  attackedPlayerId,
+  player,
+  players,
+  dispatch,
+) => {
   const playerTarget = players.find((p) => p.id === attackedPlayerId);
 
   const value = Math.min(playerTarget.money, 2);
@@ -48,4 +52,8 @@ const ambassadorCharacterAction = (player) => {
   return player;
 };
 
-export { assassinCharacterAction, captainCharacterAction, ambassadorCharacterAction };
+export {
+  assassinCharacterAction,
+  captainCharacterAction,
+  ambassadorCharacterAction,
+};

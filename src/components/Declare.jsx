@@ -16,19 +16,20 @@ import verify from "../domain/verifyCharacter";
 function Declare() {
   const [isOpen, setIsOpen] = useState("");
   const [character, setCharacter] = useState("duke");
+  const players = useSelector((s) => s.players.players);
   const player = useSelector((st) => st.players.players[st.turn.currentTurn]);
   const dispatch = useDispatch();
 
-  if(!player) return;
+  if (!player) return;
 
   // eslint-disable-next-line no-unused-vars
   const assassinAction = (attackedPlayerId) => {
-    assassinCharacterAction(attackedPlayerId, player.id, character);
+    assassinCharacterAction(attackedPlayerId, player.id, dispatch, players);
     setIsOpen("");
   };
 
   const captainAction = (attackedPlayerId) => {
-    captainCharacterAction(attackedPlayerId, player, character);
+    captainCharacterAction(attackedPlayerId, player, players, dispatch);
     setIsOpen("");
   };
 
