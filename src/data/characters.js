@@ -4,6 +4,7 @@ export const characters = [
     name: "Duke",
     action: "tax",
     description: "Recebe 3 moedas do tesouro.",
+    cost: 0,
     attackOtherPlayer: false,
   },
   {
@@ -11,7 +12,7 @@ export const characters = [
     attackOtherPlayer: true,
     name: "Assassin",
     action: "assassinate",
-    cost: 3,
+    cost: 7,
     description: "Paga 3 moedas para eliminar uma influência de outro jogador.",
   },
   {
@@ -19,6 +20,7 @@ export const characters = [
     name: "Captain",
     attackOtherPlayer: true,
     action: "steal",
+    cost: 0,
     description: "Rouba até 2 moedas de outro jogador.",
   },
   {
@@ -26,6 +28,7 @@ export const characters = [
     name: "Ambassador",
     attackOtherPlayer: false,
     action: "exchange",
+    cost: 3,
     description: "Troca cartas com a corte.",
   },
   {
@@ -33,6 +36,7 @@ export const characters = [
     name: "Contessa",
     attackOtherPlayer: false,
     action: null,
+    cost: 0,
     description: "Bloqueia tentativas de assassinato.",
   },
 ];

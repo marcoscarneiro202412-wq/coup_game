@@ -54,7 +54,7 @@ function Declare() {
         >
           {characters.map((c) => (
             <MenuItem value={c.id} key={c.id}>
-              {c.name}
+              {c.name} ({c.cost}$)
             </MenuItem>
           ))}
         </Select>
@@ -68,8 +68,10 @@ function Declare() {
               (c) => c.id === character.toLowerCase(),
             );
             verify(playerCharacter.id, playerCharacter.cost, player, setIsOpen);
+          } else {
+
+            dispatch(declareCharacter(player.id, character));
           }
-          dispatch(declareCharacter(player.id, character));
         }}
       >
         Declare

@@ -12,6 +12,8 @@
   gap: 10px;
 }
 
+
+
 .actions p {
   font-size: 28px;
   color: #fff;
@@ -22,4 +24,9 @@
 .actions-buttons {
   display: flex;
   gap: 5px;
+}
+
+.error {
+  color: rgb(243, 77, 77) !important;
+  font-weight: bold;
 }

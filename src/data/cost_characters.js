@@ -1,4 +1,0 @@
-const ASSASSIN_COST = 12;
-const CAPTAIN_GAIN = 2;
-
-export {ASSASSIN_COST, CAPTAIN_GAIN};

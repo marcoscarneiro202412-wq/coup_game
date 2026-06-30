@@ -24,6 +24,7 @@ const players = createSlice({
           state.error = "The created player doesn't have a name";
           return;
         }
+
         state.players = [
           ...state.players,
           {
@@ -54,6 +55,7 @@ const players = createSlice({
 
     giveALive(sta, act) {
       const player = sta.players.find((p) => p.id === act.payload);
+
       if (!player) {
         sta.error = "Player not found";
         return;
@@ -61,18 +63,18 @@ const players = createSlice({
 
       if (player.money < 18) return;
 
+      players.caseReducers.takeTheMoney(
+        sta,
+        players.actions.takeTheMoney(act.payload.playerId, 18),
+      );
+
       const [character] = generateCharacter(1, player.characters);
       if (!character) {
         sta.error = "Character not generated";
         return;
       }
 
-      sta.players[sta.players.indexOf(player)] = {
-        ...player,
-        characters: [...player.characters, character],
-        money: player.money - 18,
-        hp: player.hp + 1,
-      };
+      player.characters = [...player.characters, character];
     },
 
     declareCharacter: {
@@ -90,7 +92,11 @@ const players = createSlice({
         sta.players[playerIdx].declaredCharacter = act.payload.characterId;
 
         const actions = {
-          duke: () => (sta.players[playerIdx].money += 3),
+          duke: () =>
+            players.caseReducers.giveTheMoney(
+              sta,
+              players.actions.giveTheMoney(act.payload.playerId, 3),
+            ),
           ambassador: () =>
             players.caseReducers.resetCharacters(
               sta,
@@ -133,11 +139,11 @@ const players = createSlice({
           const amount = Math.floor(confronter.money / 2);
 
           confronter.money = amount;
-          confronted.money += amount/1.5;
+          confronted.money += Math.floor(amount / 1.5);
         } else {
           const amount = Math.floor(confronted.money / 2);
 
-          confronter.money += Math.floor(amount/1.5);
+          confronter.money += Math.floor(amount / 1.5);
           confronted.money = amount;
 
           confronted.declaredCharacter = null;
@@ -234,6 +240,10 @@ const players = createSlice({
         player.characters,
       );
     },
+
+    cleanTheError(sta) {
+      sta.error = "";
+    },
   },
 });
 
@@ -251,6 +261,8 @@ export const {
   killPlayer,
   removePlayer,
   cleanThePlayers,
+  cleanTheError,
+  resetCharacters,
 } = players.actions;
 
 export default players.reducer;

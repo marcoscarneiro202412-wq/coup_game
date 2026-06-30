@@ -15,7 +15,7 @@ import PlayerAction from "./PlayerAction";
 
 function Actions() {
   const [isOpen, setIsOpen] = useState(false);
-  const { players } = useSelector((st) => st.players);
+  const { players, error } = useSelector((st) => st.players);
   const { currentTurn } = useSelector((st) => st.turn);
   const player = players[currentTurn % players.length];
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ function Actions() {
 
   return (
     <div className={styles.actions}>
-      <p>Actions</p>
+      <p className={styles.title}>Actions</p>
       <div className={styles["actions-buttons"]}>
         <Declare />
         {actions.map((a, i) => (
@@ -65,6 +65,7 @@ function Actions() {
         ))}
         <Confront playerId={player.id} />
       </div>
+      {error && <p className={styles.error}>{error}</p>}
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <PlayerAction
           playerId={player.id}
