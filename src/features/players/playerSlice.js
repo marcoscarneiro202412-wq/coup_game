@@ -218,7 +218,8 @@ const players = createSlice({
     },
 
     removePlayer(sta, act) {
-      sta.players = sta.players.filter((p) => p.id !== act.payload);
+      const player = sta.players.find((p) => p.id === act.payload);
+      player.alive = false;
     },
 
     killPlayer(sta, act) {

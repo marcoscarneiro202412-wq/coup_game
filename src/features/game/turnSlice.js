@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { nextTurnEngine } from "../../domain/turnEngine";
 
-const initialState = JSON.parse(localStorage.getItem("turn") ?? JSON.stringify({
-  currentTurn: 0,
-  round: 1,
-}));
+const initialState = JSON.parse(
+  localStorage.getItem("turn") ??
+    JSON.stringify({
+      currentTurn: 0,
+      round: 1,
+    }),
+);
 
 const turnSlice = createSlice({
   name: "turn",
@@ -14,12 +18,10 @@ const turnSlice = createSlice({
       sta.round = 1;
     },
     nextTurn(sta, act) {
-      sta.currentTurn++;
+      const res = nextTurnEngine(act.payload, sta.currentTurn, sta.round);
 
-      if (sta.currentTurn >= act.payload) {
-        sta.currentTurn = 0;
-        sta.round++;
-      }
+      sta.currentTurn = res.currentTurn;
+      sta.round = res.round;
     },
 
     defineTurn(sta, act) {
