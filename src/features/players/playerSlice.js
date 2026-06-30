@@ -4,6 +4,7 @@ import { generateCharacter } from "../../domain/gamesRules";
 const initialState = JSON.parse(localStorage.getItem("players")) ?? {
   players: [],
   error: "",
+  onlyRestOne: false
 };
 
 const players = createSlice({
@@ -170,24 +171,11 @@ const players = createSlice({
           return;
         }
 
-        if (!player) {
-          sta.error = "Jogador não encontrado";
-          return;
-        }
-
-        if (player.money < 7) {
-          sta.error = "Jogador não tem dinheiro para realizar essa ação";
-          return;
-        }
         if (player.money < 7) {
           sta.error = "Jogador não tem dinheiro para realizar essa ação";
           return;
         }
 
-        players.caseReducers.killPlayer(sta, {
-          action: "players/killPlayer",
-          payload: act.payload.enemyId,
-        });
         players.caseReducers.killPlayer(sta, {
           action: "players/killPlayer",
           payload: act.payload.enemyId,
@@ -250,6 +238,7 @@ const players = createSlice({
       if (player.hp <= 0) {
         player.alive = false;
       }
+
     },
 
     resetCharacters(sta, act) {

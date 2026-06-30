@@ -24,7 +24,7 @@ function ActionPlayer({ playerId, action, title="Kill" }) {
         >
           {players.map(
             (c, i) =>
-              c.id !== playerId && (
+              (c.id !== playerId && c.alive) && (
                 <MenuItem value={i} key={c.id}>
                   {c.name}
                 </MenuItem>

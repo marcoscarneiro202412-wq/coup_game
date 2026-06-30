@@ -4,22 +4,20 @@ import { finalizeGame } from "../features/game/gameSlice";
 const hpListenerMiddleware = createListenerMiddleware();
 
 hpListenerMiddleware.startListening({
-  predicate: (_, prev, cur) => {
+  predicate: (act, prev, cur) => {
     const prevPlayers = prev.players.players;
-    const curPlayers = cur.players.players;
+    const currPlayers = cur.players.players;
 
-    return curPlayers.some((player, index) => {
+    return currPlayers.some((player, index) => {
       const prevPlayer = prevPlayers[index];
-      return prevPlayer && player.hp !== prevPlayer.hp;
+
+      return prevPlayer && prevPlayer.alive !== player.alive;
     });
   },
 
   effect: async (_, listener) => {
     const state = listener.getState();
-
-    await listener.delay(0);
-
-    const playersAfter = state.players.players.filter(p => p.alive);
+    const playersAfter = state.players.players.filter((p) => p.alive);
 
     if (playersAfter.length === 1) {
       listener.dispatch(finalizeGame(playersAfter[0]));

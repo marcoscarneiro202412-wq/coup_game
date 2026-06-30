@@ -24,7 +24,7 @@ function Confront({ playerId }) {
           id="demo-simple-select"
           label="Age"
         >
-          {players.map((c, i) => c.id !== playerId && (
+          {players.map((c, i) => (c.id !== playerId && c.alive) && (
             
             <MenuItem value={i} key={c.id}>
               {c.name}
