@@ -18,7 +18,7 @@ function Confront({ playerId }) {
         </InputLabel>
         <Select
           value={player}
-          onChange={(ev) => setPlayer(ev.target.value)}
+          onChange={(ev) => setPlayer(+ev.target.value)}
           sx={{ borderColor: "#fff", color: "#fff" }}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -34,7 +34,7 @@ function Confront({ playerId }) {
       </FormControl>
       <button
         onClick={() => {
-          dispatch(confront(playerId, player));
+          dispatch(confront(playerId, players[player].id));
         }}
       >
         Confront

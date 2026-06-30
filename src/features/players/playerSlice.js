@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { generateCharacter } from "../../domain/gamesRules";
-import { ambassadorCharacterAction } from "../../domain/actions";
+// import { ambassadorCharacterAction } from "../../domain/actions";
 
 const initialState = JSON.parse(localStorage.getItem("players")) ?? {
   players: [],
@@ -91,10 +91,11 @@ const players = createSlice({
 
         const actions = {
           duke: () => (sta.players[playerIdx].money += 3),
-          ambassadorCharacterAction: () =>
-            (sta.players[playerIdx] = ambassadorCharacterAction(
-              sta.players[playerIdx],
-            )),
+          ambassador: () =>
+            players.caseReducers.resetCharacters(
+              sta,
+              players.actions.resetCharacters(act.payload.playerId),
+            ),
         };
 
         actions[act.payload.characterId]?.();
@@ -119,7 +120,7 @@ const players = createSlice({
           return;
         }
 
-        if (!confronted.declaredCharacter.id) {
+        if (!confronted.declaredCharacter) {
           sta.error = "O jogador confrontado não declarou personagem";
           return;
         }
@@ -132,12 +133,14 @@ const players = createSlice({
           const amount = Math.floor(confronter.money / 2);
 
           confronter.money = amount;
-          confronted.money += amount;
+          confronted.money += amount/1.5;
         } else {
           const amount = Math.floor(confronted.money / 2);
 
-          confronter.money += amount;
+          confronter.money += Math.floor(amount/1.5);
           confronted.money = amount;
+
+          confronted.declaredCharacter = null;
         }
       },
     },
@@ -176,10 +179,7 @@ const players = createSlice({
         players.actions.takeTheMoney(player.id, 6),
       );
 
-      player.characters = generateCharacter(
-        player.characters.length,
-        player.characters,
-      );
+      players.caseReducers.resetCharacters(sta, act);
     },
 
     auxilio(sta, act) {
@@ -225,6 +225,14 @@ const players = createSlice({
 
       player.hp--;
       if (player.characters) player.characters.pop();
+    },
+
+    resetCharacters(sta, act) {
+      const player = sta.players.find((p) => p.id === act.payload);
+      player.characters = generateCharacter(
+        player.characters.length,
+        player.characters,
+      );
     },
   },
 });
