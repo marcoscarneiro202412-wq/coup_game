@@ -65,7 +65,7 @@ const players = createSlice({
 
       players.caseReducers.takeTheMoney(
         sta,
-        players.actions.takeTheMoney(act.payload.playerId, 18),
+        players.actions.takeTheMoney(act.payload, 18),
       );
 
       const [character] = generateCharacter(1, player.characters);
@@ -217,11 +217,6 @@ const players = createSlice({
       },
     },
 
-    removePlayer(sta, act) {
-      const player = sta.players.find((p) => p.id === act.payload);
-      player.alive = false;
-    },
-
     killPlayer(sta, act) {
       const player = sta.players.find((p) => p.id === act.payload);
 
@@ -232,6 +227,10 @@ const players = createSlice({
 
       player.hp--;
       if (player.characters) player.characters.pop();
+
+      if (player.hp <= 0) {
+        player.alive = false;
+      }
     },
 
     resetCharacters(sta, act) {
@@ -260,7 +259,6 @@ export const {
   takeTheMoney,
   giveTheMoney,
   killPlayer,
-  removePlayer,
   cleanThePlayers,
   cleanTheError,
   resetCharacters,

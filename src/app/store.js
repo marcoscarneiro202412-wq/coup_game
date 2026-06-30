@@ -18,11 +18,11 @@ const store = configureStore({
   },
   middleware: (getDefault) =>
     getDefault().concat(
-      hpListenerMiddleware.middleware,
       nextTurnMiddleware.middleware,
       authMiddleware.middleware,
       interceptMiddleware.middleware,
-      finalizeGameMiddleware.middleware
+      finalizeGameMiddleware.middleware,
+      hpListenerMiddleware.middleware
     ),
 });
 

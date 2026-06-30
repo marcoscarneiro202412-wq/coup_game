@@ -7,10 +7,10 @@ function CardPlayer({ player }) {
   const { currentTurn } = useSelector((s) => s.turn);
   return (
     <div
-      className={`${styles.card} ${players.at(currentTurn % players.length)?.id === player.id ? styles.active : ""}`}
+      className={`${styles.card} ${players.at(currentTurn % players.length)?.id === player.id ? styles.active : player.alive ? "":styles.dead}`}
     >
       <PlayerImg player={player} />
-      <div className={styles.info}>
+      <div className={`styles.info`}>
         <h3>{player.name}</h3>
         <p>
           <span>🪙</span> {player.money}

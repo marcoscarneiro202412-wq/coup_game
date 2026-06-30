@@ -18,7 +18,7 @@ nextTurnMiddleware.startListening({
   effect: (_, listener) => {
     const { players } = listener.getState();
 
-    listener.dispatch(nextTurn(players));
+    listener.dispatch(nextTurn(players.players));
     listener.dispatch(cleanTheError());
   },
 });

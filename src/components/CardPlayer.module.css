@@ -22,3 +22,37 @@
 .active img {
   border: #ffeab4 0.2px solid;
 }
+
+.dead {
+  opacity: 0.4;
+  position: relative;
+  width: inherit;
+  height: inherit;
+  background-color: #333; /* Fundo escuro para destacar */
+  border: 4px solid #ccc;
+  overflow: hidden;
+}
+
+/* O X Vermelho Gigante */
+.dead::before,
+.dead::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140%; /* Garante que cubra de ponta a ponta */
+  height: 30px; /* Grossura das pernas do X */
+  background-color: #ff0000; /* Vermelho vivo */
+  border-radius: 5px; /* Cantos levemente arredondados */
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); /* Brilho vermelho */
+}
+
+/* Inclina a primeira linha */
+.dead::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Inclina a segunda linha na direção oposta */
+.dead::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}

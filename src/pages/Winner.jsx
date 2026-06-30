@@ -7,9 +7,7 @@ import { restartState } from "../features/game/turnSlice";
 
 function Winner() {
   const navigate = useNavigate();
-  const winner = useSelector((st) => {
-    return st.players.players.find((p) => p.id === st.game.winner);
-  });
+  const winner = useSelector((st) => st.game.winner);
   const dispatch = useDispatch();
   if (!winner) return <Navigate to={"/"} replace />;
 

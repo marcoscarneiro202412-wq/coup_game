@@ -4,11 +4,11 @@ export function nextTurnEngine(players, currentTurn, currentRound) {
     do {
         next++;
 
-        if(next > players.length) {
+        if(next >= players.length) {
             next = 0;
             round++;
         }
-    } while(!players[next].alive);
+    } while(!(players[next].alive));
 
     return {currentTurn: next, round};
 }
