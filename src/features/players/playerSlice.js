@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { generateCharacter } from "../../domain/gamesRules";
-// import { ambassadorCharacterAction } from "../../domain/actions";
 
 const initialState = JSON.parse(localStorage.getItem("players")) ?? {
   players: [],
@@ -41,6 +40,7 @@ const players = createSlice({
       },
     },
 
+
     generateCharacterForPlayers(sta) {
       const characters = generateCharacter(sta.players.length);
       sta.players = sta.players.map((p, i) => {
@@ -52,6 +52,7 @@ const players = createSlice({
         };
       });
     },
+
 
     giveALive(sta, act) {
       const player = sta.players.find((p) => p.id === act.payload);
@@ -76,6 +77,7 @@ const players = createSlice({
 
       player.characters = [...player.characters, character];
     },
+
 
     declareCharacter: {
       prepare(playerId, characterId) {
@@ -125,6 +127,10 @@ const players = createSlice({
           sta.error = "Algum dos jogadores não existe";
           return;
         }
+        if (!confronted || !confronter) {
+          sta.error = "Algum dos jogadores não existe";
+          return;
+        }
 
         if (!confronted.declaredCharacter) {
           sta.error = "O jogador confrontado não declarou personagem";
@@ -164,11 +170,24 @@ const players = createSlice({
           return;
         }
 
+        if (!player) {
+          sta.error = "Jogador não encontrado";
+          return;
+        }
+
+        if (player.money < 7) {
+          sta.error = "Jogador não tem dinheiro para realizar essa ação";
+          return;
+        }
         if (player.money < 7) {
           sta.error = "Jogador não tem dinheiro para realizar essa ação";
           return;
         }
 
+        players.caseReducers.killPlayer(sta, {
+          action: "players/killPlayer",
+          payload: act.payload.enemyId,
+        });
         players.caseReducers.killPlayer(sta, {
           action: "players/killPlayer",
           payload: act.payload.enemyId,

@@ -69,7 +69,6 @@ function Declare() {
             );
             verify(playerCharacter.id, playerCharacter.cost, player, setIsOpen);
           } else {
-
             dispatch(declareCharacter(player.id, character));
           }
         }}
