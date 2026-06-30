@@ -9,7 +9,8 @@ function Winner() {
   const navigate = useNavigate();
   const winner = useSelector((st) => st.game.winner);
   const dispatch = useDispatch();
-  if (!winner) return <Navigate to={"/"} replace />;
+
+  if (!winner) return <Navigate to={"/game"} replace />;
 
   return (
     <div className={styles.winner}>

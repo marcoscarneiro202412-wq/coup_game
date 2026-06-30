@@ -1,5 +1,6 @@
 import { createListenerMiddleware } from "@reduxjs/toolkit";
 import { finalizeGame } from "../features/game/gameSlice";
+import { coupDEtat, killPlayer } from "../features/players/playerSlice";
 
 const hpListenerMiddleware = createListenerMiddleware();
 
@@ -8,7 +9,7 @@ hpListenerMiddleware.startListening({
     const prevPlayers = prev.players.players;
     const currPlayers = cur.players.players;
 
-    return currPlayers.some((player, index) => {
+    return act.type === killPlayer.type || act.type === coupDEtat.type || currPlayers.some((player, index) => {
       const prevPlayer = prevPlayers[index];
 
       return prevPlayer && prevPlayer.alive !== player.alive;

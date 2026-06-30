@@ -13,8 +13,6 @@ nextTurnMiddleware.startListening({
       "auxilio",
       "bargain",
     ];
-    console.log(act.type.split("/").at(1))
-    console.log(actionsForNextTurn.includes(act.type.split("/").at(1)))
     return actionsForNextTurn.includes(act.type.split("/").at(1));
   },
   effect: (_, listener) => {

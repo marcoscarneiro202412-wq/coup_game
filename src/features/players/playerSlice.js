@@ -233,7 +233,7 @@ const players = createSlice({
       }
 
       player.hp--;
-      if (player.characters) player.characters.pop();
+      if (player.characters?.length === 0) player.characters.pop();
 
       if (player.hp <= 0) {
         player.alive = false;

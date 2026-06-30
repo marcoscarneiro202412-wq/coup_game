@@ -5,19 +5,16 @@ import {
 import { useRef } from "react";
 import { startGame } from "../features/game/gameSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
 import styles from "./RegisterPlayers.module.css";
 import User from "../components/User";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPlayers() {
   const navigate = useNavigate();
   const nameRef = useRef(null);
   const imgUrlRef = useRef(null);
   const players = useSelector((st) => st.players.players);
-  const isAuthenticated = useSelector((st) => st.auth.isAuthenticated);
   const dispatch = useDispatch();
-
-  if (!isAuthenticated) return <Navigate to={"/"} />;
 
   return (
     <div className={styles.register}>

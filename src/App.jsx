@@ -8,6 +8,7 @@ import History from "./pages/History";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { resetPage } from "./features/auth/authSlice";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,7 +19,14 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/history" element={<History />} />
+          <Route
+            path="/history"
+            element={
+              <ProtectedRoute>
+                <History />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/" index element={<Home />} />
           <Route
             path="/login"
@@ -32,9 +40,30 @@ function App() {
           />
           <Route path="game">
             <Route index element={<Navigate to={"/game/register"} replace />} />
-            <Route path="register" element={<RegisterPlayers />} />
-            <Route path="play" element={<Game />} />
-            <Route path="winner" element={<Winner />} />
+            <Route
+              path="register"
+              element={
+                <ProtectedRoute>
+                  <RegisterPlayers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="play"
+              element={
+                <ProtectedRoute>
+                  <Game />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="winner"
+              element={
+                <ProtectedRoute>
+                  <Winner />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,13 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./History.module.css";
-import { Navigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { deleteHistory } from "../features/auth/authSlice";
 
 function History() {
   const dispatch = useDispatch();
   const { user, isLoading } = useSelector((s) => s.auth);
-  if (!user) return <Navigate to={"/"} />;
   const { history, id } = user;
 
   return (

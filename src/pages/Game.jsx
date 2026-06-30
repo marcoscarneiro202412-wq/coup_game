@@ -11,7 +11,8 @@ import Characters from "../components/Characters";
 function Game() {
   const players = useSelector((s) => s.players.players);
   const [isVisible, setIsVisible] = useState(true);
-  if (players.length <= 1) return <Navigate to="/game/winner" replace />;
+  
+  if (players.length === 1) return <Navigate to="/game/winner" replace />;
 
   if (players.length < 1) return <Navigate to={"/game/register"} replace />;
 
