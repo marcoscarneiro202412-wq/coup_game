@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { generateCharacter } from "../../domain/gamesRules";
+import { safeLoadState } from "../../helpers/safeLoadState";
 
-const initialState = JSON.parse(localStorage.getItem("players")) ?? {
+const initialState = safeLoadState("players", {
   players: [],
   error: "",
-  onlyRestOne: false
-};
+});
 
 const players = createSlice({
   name: "players",
@@ -41,7 +41,6 @@ const players = createSlice({
       },
     },
 
-
     generateCharacterForPlayers(sta) {
       const characters = generateCharacter(sta.players.length);
       sta.players = sta.players.map((p, i) => {
@@ -53,7 +52,6 @@ const players = createSlice({
         };
       });
     },
-
 
     giveALive(sta, act) {
       const player = sta.players.find((p) => p.id === act.payload);
@@ -78,7 +76,6 @@ const players = createSlice({
 
       player.characters = [...player.characters, character];
     },
-
 
     declareCharacter: {
       prepare(playerId, characterId) {
@@ -238,7 +235,6 @@ const players = createSlice({
       if (player.hp <= 0) {
         player.alive = false;
       }
-
     },
 
     resetCharacters(sta, act) {

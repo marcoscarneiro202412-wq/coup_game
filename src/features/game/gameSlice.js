@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { safeLoadState } from "../../helpers/safeLoadState";
 
-const initialState = JSON.parse(localStorage.getItem("game") ?? JSON.stringify({
+const initialState = safeLoadState("game", {
   status: "waiting",
   winner: null,
   gameStarted: false,
-}));
+});
 
 const gameSlice = createSlice({
   name: "game",

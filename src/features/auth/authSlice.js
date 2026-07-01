@@ -1,14 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { safeLoadState } from "../../helpers/safeLoadState";
 
-const initialState = JSON.parse(
-  localStorage.getItem("auth") ??
-    JSON.stringify({
-      isLoading: false,
-      error: "",
-      user: null,
-      isAuthenticated: false,
-    }),
-);
+const initialState = safeLoadState("auth", {
+  isLoading: false,
+  error: "",
+  user: null,
+  isAuthenticated: false,
+});
 
 const authSlice = createSlice({
   name: "auth",

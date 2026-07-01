@@ -1,13 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { nextTurnEngine } from "../../domain/turnEngine";
+import { safeLoadState } from "../../helpers/safeLoadState";
 
-const initialState = JSON.parse(
-  localStorage.getItem("turn") ??
-    JSON.stringify({
-      currentTurn: 0,
-      round: 1,
-    }),
-);
+const initialState = safeLoadState("turn", {
+  currentTurn: 0,
+  round: 1,
+});
 
 const turnSlice = createSlice({
   name: "turn",

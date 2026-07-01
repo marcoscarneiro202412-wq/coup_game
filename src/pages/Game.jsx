@@ -11,8 +11,9 @@ import Characters from "../components/Characters";
 function Game() {
   const players = useSelector((s) => s.players.players);
   const [isVisible, setIsVisible] = useState(true);
-  
-  if (players.length === 1) return <Navigate to="/game/winner" replace />;
+
+  if (players.filter((p) => p.alive).length === 1)
+    return <Navigate to="/game/winner" replace />;
 
   if (players.length < 1) return <Navigate to={"/game/register"} replace />;
 
@@ -25,7 +26,8 @@ function Game() {
           style={{ fontSize: "36px", color: "#fff", cursor: "pointer" }}
           onClick={() => setIsVisible((p) => !p)}
         >
-          {isVisible ? "Não":""} Mostrar Personagens{isVisible ? `👁️🔒` : "👁️"}
+          {isVisible ? "Não" : ""} Mostrar Personagens
+          {isVisible ? `👁️🔒` : "👁️"}
         </p>
         <Player />
         <Actions />
