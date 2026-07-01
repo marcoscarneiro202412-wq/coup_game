@@ -5,7 +5,7 @@ import {
   setError,
 } from "../features/auth/authSlice";
 import { cleanThePlayers } from "../features/players/playerSlice";
-import { restartLocalStorageGame } from "../helpers/restartLocalStorageGame";
+import { restartLocalStorageGame } from "../services/storage";
 import { createHistory } from "../services/historyApi";
 
 const finalizeGameMiddleware = createListenerMiddleware();

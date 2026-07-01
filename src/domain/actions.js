@@ -5,7 +5,7 @@ import {
   resetCharacters,
   takeTheMoney,
 } from "../features/players/playerSlice";
-import verify from "./verifyCharacter";
+import verify from "./validation";
 import { characters } from "../data/characters";
 
 const assassinCharacterAction = (

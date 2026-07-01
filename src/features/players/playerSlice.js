@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { generateCharacter } from "../../domain/gamesRules";
-import { safeLoadState } from "../../helpers/safeLoadState";
+import { safeLoadState } from "../../services/storage";
 
 const initialState = safeLoadState("players", {
   players: [],

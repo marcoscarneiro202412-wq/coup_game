@@ -1,26 +1,24 @@
-import { characters } from "../data/characters";
+import { createDeck } from "./deck";
 
 function generateCharacter(quantity, existentCharacters = [], isBargain) {
-  const freeCharacters = characters.filter(
-    (c) => !existentCharacters.some((ec) => c.id === ec.id),
-  );
 
-  const isBargainPiece = isBargain ? [] : freeCharacters;
+  const deck = createDeck(existentCharacters, isBargain);
 
-  const charactersPiece = [...freeCharacters, ...isBargainPiece];
   const charactersForSend = [];
+
   for (let i = 0; i < quantity; i++) {
-    const character = charactersPiece.at(
-      Math.floor(Math.random() * charactersPiece.length),
+    const character = deck.at(
+      Math.floor(Math.random() * deck.length),
     );
     charactersForSend.push(character);
-    const deletedCharacterIndex = charactersPiece.findIndex(
+    const deletedCharacterIndex = deck.findIndex(
       (c) => c.name === character.name,
     );
     if (deletedCharacterIndex > -1) {
-      charactersPiece.splice(deletedCharacterIndex, 1);
+      deck.splice(deletedCharacterIndex, 1);
     }
   }
+  
   return charactersForSend;
 }
 

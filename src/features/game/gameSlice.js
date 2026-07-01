@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { safeLoadState } from "../../helpers/safeLoadState";
+import { safeLoadState } from "../../services/storage";
 
 const initialState = safeLoadState("game", {
   status: "waiting",

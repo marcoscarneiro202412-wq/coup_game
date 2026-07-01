@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { nextTurnEngine } from "../../domain/turnEngine";
-import { safeLoadState } from "../../helpers/safeLoadState";
+import { nextTurnEngine } from "../../domain/turnRules";
+import { safeLoadState } from "../../services/storage";
 
 const initialState = safeLoadState("turn", {
   currentTurn: 0,

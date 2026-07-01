@@ -11,7 +11,7 @@ import {
   assassinCharacterAction,
   captainCharacterAction,
 } from "../../domain/actions";
-import verify from "../../domain/verifyCharacter";
+import verify from "../../domain/validation";
 
 function Declare() {
   const [isOpen, setIsOpen] = useState("");
