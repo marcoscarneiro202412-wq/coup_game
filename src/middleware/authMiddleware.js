@@ -5,6 +5,9 @@ import {
   setError,
 } from "../features/auth/authSlice";
 
+import { login, signup } from "../services/authApi";
+import { deleteHistory } from "../services/historyApi";
+
 const authMiddleware = createListenerMiddleware();
 
 authMiddleware.startListening({
@@ -14,7 +17,7 @@ authMiddleware.startListening({
 
   effect: async (act, listener) => {
     const type = act.type.split("/")[1];
-    const login = async (user, pass) => {
+    const loginMiddleware = async (user, pass) => {
       listener.dispatch(fetchingTheData());
 
       try {
@@ -33,7 +36,7 @@ authMiddleware.startListening({
       }
     };
 
-    const signup = async (name, email, password, avatar) => {
+    const signupMiddleware = async (name, email, password, avatar) => {
       listener.dispatch(fetchingTheData());
 
       try {
@@ -47,7 +50,7 @@ authMiddleware.startListening({
       }
     };
 
-    const deleteHistory = async () => {
+    const deleteHistoryMiddleware = async () => {
       listener.dispatch(fetchingTheData());
 
       try {
@@ -72,16 +75,16 @@ authMiddleware.startListening({
 
     switch (type) {
       case "deleteHistory":
-        await deleteHistory();
+        await deleteHistoryMiddleware();
         break;
       case "login":
         listener.dispatch(fetchingTheData());
-        await login(act.payload.name, act.payload.password);
+        await loginMiddleware(act.payload.name, act.payload.password);
         break;
       case "signup":
         listener.dispatch(fetchingTheData());
         console.log(act.payload);
-        await signup(
+        await signupMiddleware(
           act.payload.name,
           act.payload.email,
           act.payload.password,
