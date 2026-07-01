@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import Characters from "../components/Characters";
+import Restart from "../components/Restart";
 
 function Game() {
   const players = useSelector((s) => s.players.players);
@@ -19,6 +20,7 @@ function Game() {
 
   return (
     <div className={styles.game}>
+      <Restart />
       {isVisible && <Characters />}
       <div className={styles.principal}>
         <Logo />

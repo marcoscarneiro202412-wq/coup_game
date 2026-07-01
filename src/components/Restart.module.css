@@ -1,0 +1,28 @@
+.container {
+  position: absolute;
+  top: 15px;
+  display: flex;
+  gap: 7px;
+  cursor: pointer;
+  right: 16px;
+  color: #fff;
+  align-items: center;
+}
+
+.restart {
+    font-size: 40px;
+  transform-origin: center;
+}
+
+.restart:active {
+    animation: restart .5s ease;
+}
+
+@keyframes restart {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

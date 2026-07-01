@@ -1,11 +1,10 @@
 import { createListenerMiddleware } from "@reduxjs/toolkit";
 import { defineUser } from "../features/auth/authSlice";
 import { cleanThePlayers } from "../features/players/playerSlice";
+import { restartLocalStorageGame } from "../helpers/restartLocalStorageGame";
 
 const finalizeGameMiddleware = createListenerMiddleware();
-const setItem = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value));
-};
+
 finalizeGameMiddleware.startListening({
   predicate: (act) => {
     return act.type.endsWith("finalizeGame");
@@ -41,16 +40,7 @@ finalizeGameMiddleware.startListening({
         ),
       );
     listener.dispatch(cleanThePlayers());
-    setItem("players", { players: [] });
-    setItem("turn", {
-      currentTurn: 0,
-      round: 1,
-    });
-    setItem("game", {
-      status: "waiting",
-      winner: null,
-      gameStarted: false,
-    });
+    restartLocalStorageGame();
   },
 });
 
