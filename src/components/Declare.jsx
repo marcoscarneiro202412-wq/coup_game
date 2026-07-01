@@ -22,7 +22,6 @@ function Declare() {
 
   if (!player) return;
 
-  // eslint-disable-next-line no-unused-vars
   const assassinAction = (attackedPlayerId) => {
     assassinCharacterAction(attackedPlayerId, player.id, dispatch, players);
     setIsOpen("");
@@ -42,15 +41,13 @@ function Declare() {
     <div className={styles.declare}>
       <p>Declare Character</p>
       <FormControl fullWidth sx={{ color: "#fff" }}>
-        <InputLabel sx={{ color: "#fff" }} id="demo-simple-select-label">
+        <InputLabel sx={{ color: "#fff" }}>
           Characters
         </InputLabel>
         <Select
           value={character}
           onChange={(ev) => setCharacter(ev.target.value)}
           sx={{ borderColor: "#fff", color: "#fff" }}
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
         >
           {characters.map((c) => (
             <MenuItem value={c.id} key={c.id}>

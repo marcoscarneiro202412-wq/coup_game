@@ -20,9 +20,6 @@ function Confront({ playerId }) {
           value={player}
           onChange={(ev) => setPlayer(+ev.target.value)}
           sx={{ borderColor: "#fff", color: "#fff" }}
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Age"
         >
           {players.map((c, i) => (c.id !== playerId && c.alive) && (
             

@@ -18,9 +18,6 @@ function ActionPlayer({ playerId, action, title="Kill" }) {
           value={player}
           onChange={(ev) => setPlayer(ev.target.value)}
           sx={{ borderColor: "#fff", color: "#fff" }}
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Age"
         >
           {players.map(
             (c, i) =>

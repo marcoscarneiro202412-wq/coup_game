@@ -18,8 +18,6 @@ const turnSlice = createSlice({
     nextTurn(sta, act) {
       const res = nextTurnEngine(act.payload, sta.currentTurn, sta.round);
 
-      console.log(res);
-
       sta.currentTurn = res.currentTurn;
       sta.round = res.round;
     },
