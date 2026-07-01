@@ -1,7 +1,12 @@
 import { createListenerMiddleware } from "@reduxjs/toolkit";
-import { defineUser } from "../features/auth/authSlice";
+import {
+  defineUser,
+  fetchingTheData,
+  setError,
+} from "../features/auth/authSlice";
 import { cleanThePlayers } from "../features/players/playerSlice";
 import { restartLocalStorageGame } from "../helpers/restartLocalStorageGame";
+import { createHistory } from "../services/historyApi";
 
 const finalizeGameMiddleware = createListenerMiddleware();
 
@@ -11,25 +16,16 @@ finalizeGameMiddleware.startListening({
   },
 
   effect: async (act, listener) => {
-    const { players, turn, auth } = listener.getState();
-    const res = await fetch(
-      "https://users-api-coup.onrender.com/history/create",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          playerId: auth.user["_id"] ?? auth.user.id,
-          game: {
-            winner: players.players.at(0).name,
-            rounds: turn.round,
-          },
-        }),
-      },
-    );
+    const { players, turn, auth, game } = listener.getState();
 
-    const user = await res.json();
-
-    if (auth.user)
+    try {
+      listener.dispatch(fetchingTheData());
+      const user = await createHistory(
+        auth.user.id,
+        game.winner.name,
+        turn.round,
+        players.players
+      );
       listener.dispatch(
         defineUser(
           user["_id"],
@@ -39,8 +35,13 @@ finalizeGameMiddleware.startListening({
           user.history,
         ),
       );
-    listener.dispatch(cleanThePlayers());
-    restartLocalStorageGame();
+    } catch (err) {
+      console.error(err.message);
+      listener.dispatch(setError(err.message));
+    } finally {
+      listener.dispatch(cleanThePlayers());
+      restartLocalStorageGame();
+    }
   },
 });
 

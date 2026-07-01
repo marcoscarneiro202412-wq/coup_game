@@ -13,7 +13,7 @@ function Confront({ playerId }) {
     <div className={styles.declare}>
       <p>Confront Player</p>
       <FormControl fullWidth sx={{ color: "#fff" }}>
-        <InputLabel sx={{ color: "#fff" }} id="demo-simple-select-label">
+        <InputLabel sx={{ color: "#fff" }}>
           Players
         </InputLabel>
         <Select

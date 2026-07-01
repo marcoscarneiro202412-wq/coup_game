@@ -11,7 +11,7 @@ function ActionPlayer({ playerId, action, title="Kill" }) {
     <div className={styles.declare}>
       <p>{title} Player</p>
       <FormControl fullWidth sx={{ color: "#fff" }}>
-        <InputLabel sx={{ color: "#fff" }} id="demo-simple-select-label">
+        <InputLabel sx={{ color: "#fff" }}>
           Players
         </InputLabel>
         <Select
