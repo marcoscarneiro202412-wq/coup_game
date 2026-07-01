@@ -8,7 +8,7 @@ import History from "./pages/History";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { resetPage } from "./features/auth/authSlice";
-import ProtectedRoute from "./routes/ProtectedRoute";
+import ProtectedRoute from "./pages/routes/ProtectedRoute";
 
 function App() {
   const dispatch = useDispatch();

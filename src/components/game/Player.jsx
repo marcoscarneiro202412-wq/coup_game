@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import styles from "./Player.module.css";
+import styles from "../styles/Player.module.css";
 import PlayerImg from "./PlayerImg";
 
 function Player() {

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import styles from "./TurnIndicator.module.css";
+import styles from "../styles/TurnIndicator.module.css";
 
 function TurnIndicator() {
   const { currentTurn, round } = useSelector((s) => s.turn);

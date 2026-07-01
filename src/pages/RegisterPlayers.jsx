@@ -5,8 +5,8 @@ import {
 import { useRef } from "react";
 import { startGame } from "../features/game/gameSlice";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./RegisterPlayers.module.css";
-import User from "../components/User";
+import styles from "./styles/RegisterPlayers.module.css";
+import User from "../components/layout/User";
 import { useNavigate } from "react-router-dom";
 
 function RegisterPlayers() {

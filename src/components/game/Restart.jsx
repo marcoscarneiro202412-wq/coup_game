@@ -1,5 +1,5 @@
-import { restartLocalStorageGame } from "../helpers/restartLocalStorageGame";
-import styles from "./Restart.module.css";
+import { restartLocalStorageGame } from "../../helpers/restartLocalStorageGame";
+import styles from "../styles/Restart.module.css";
 
 function Restart() {
   return (

@@ -1,8 +1,8 @@
-import styles from "./Declare.module.css";
+import styles from "../styles/Declare.module.css";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { confront } from "../features/players/playerSlice";
+import { confront } from "../../features/players/playerSlice";
 
 function Confront({ playerId }) {
   const [player, setPlayer] = useState(0);

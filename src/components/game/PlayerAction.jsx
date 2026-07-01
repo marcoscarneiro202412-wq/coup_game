@@ -1,4 +1,4 @@
-import styles from "./Declare.module.css";
+import styles from "../styles/Declare.module.css";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import {  useSelector } from "react-redux";

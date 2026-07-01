@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./History.module.css";
-import NavBar from "../components/NavBar";
+import styles from "./styles/History.module.css";
+import NavBar from "../components/ui/NavBar";
 import { deleteHistory } from "../features/auth/authSlice";
 
 function History() {

@@ -1,13 +1,13 @@
-import styles from "./Game.module.css";
-import Logo from "../components/Logo";
-import Player from "../components/Player";
-import Actions from "../components/Actions";
-import AlivePlayers from "../components/AlivePlayers";
+import styles from "./styles/Game.module.css";
+import Logo from "../components/game/Logo";
+import Player from "../components/game/Player";
+import Actions from "../components/game/Actions";
+import AlivePlayers from "../components/game/AlivePlayers";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import Characters from "../components/Characters";
-import Restart from "../components/Restart";
+import Characters from "../components/game/Characters";
+import Restart from "../components/game/Restart";
 
 function Game() {
   const players = useSelector((s) => s.players.players);

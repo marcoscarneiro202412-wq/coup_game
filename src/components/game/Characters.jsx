@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import styles from "./Characters.module.css";
+import styles from "../styles/Characters.module.css";
 import { memo } from "react";
 
 const Characters = memo(function Characters() {

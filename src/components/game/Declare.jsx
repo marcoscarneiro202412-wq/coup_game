@@ -1,17 +1,17 @@
-import styles from "./Declare.module.css";
-import { characters } from "../data/characters";
+import styles from "../styles/Declare.module.css";
+import { characters } from "../../data/characters";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { declareCharacter } from "../features/players/playerSlice";
+import { declareCharacter } from "../../features/players/playerSlice";
 
-import Modal from "./Modal";
+import Modal from "../layout/Modal";
 import PlayerAction from "./PlayerAction";
 import {
   assassinCharacterAction,
   captainCharacterAction,
-} from "../domain/actions";
-import verify from "../domain/verifyCharacter";
+} from "../../domain/actions";
+import verify from "../../domain/verifyCharacter";
 
 function Declare() {
   const [isOpen, setIsOpen] = useState("");

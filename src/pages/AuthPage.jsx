@@ -1,9 +1,9 @@
 import { useRef } from "react";
-import styles from "./AuthPage.module.css";
+import styles from "./styles/AuthPage.module.css";
 import { login, signup } from "../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/ui/NavBar";
 function Login({ isLoginPage }) {
   const nameRef = useRef(null);
   const emailRef = useRef(null);

@@ -1,4 +1,4 @@
-import styles from "./Action.module.css";
+import styles from "../styles/Action.module.css";
 
 function Action({ action, money }) {
   const { name, emote, cost, method, disabled } = action;

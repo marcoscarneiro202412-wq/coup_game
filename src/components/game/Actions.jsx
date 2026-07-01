@@ -1,16 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./Actions.module.css";
+import styles from "../styles/Actions.module.css";
 import Declare from "./Declare";
 import {
   auxilio,
   bargain,
   coupDEtat,
   giveALive,
-} from "../features/players/playerSlice";
+} from "../../features/players/playerSlice";
 import Action from "./Action";
 import Confront from "./Confront";
 import { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../layout/Modal";
 import PlayerAction from "./PlayerAction";
 
 function Actions() {
