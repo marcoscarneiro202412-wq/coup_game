@@ -28,7 +28,7 @@ const players = createSlice({
         state.players = [
           ...state.players,
           {
-            id: state.players.length + 1,
+            id: crypto.randomUUID(),
             name: action.payload.name,
             imgUrl: action.payload.imgUrl
               ? action.payload.imgUrl

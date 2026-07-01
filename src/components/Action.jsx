@@ -5,7 +5,7 @@ function Action({ action, money }) {
   return (
     <button
       className={styles.action}
-      disabled={money < cost || (disabled ?? false)}
+      disabled={(money < cost) || disabled}
       onClick={() => {
         if (!(disabled ?? false)) {
           method();

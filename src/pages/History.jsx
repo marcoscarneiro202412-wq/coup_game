@@ -36,7 +36,7 @@ function History() {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    if (!isLoading) return;
+                    if (isLoading) return;
                     dispatch(deleteHistory({ historyId: h.id, playerId: id }));
                   }}
                 >
