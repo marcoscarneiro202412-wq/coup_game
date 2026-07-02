@@ -1,4 +1,8 @@
-import { assassinCharacterAction, captainCharacterAction } from "./actions";
+import {
+  ambassadorCharacterAction,
+  assassinCharacterAction,
+  captainCharacterAction,
+} from "./actions";
 import { createDeck } from "./deck";
 import { canCoup } from "./validation";
 
@@ -91,25 +95,20 @@ function resolveConfront(players, actorId, targetId) {
 const resolveDeclare = (players, actorId, characterId, targetId) => {
   const player = players.find((p) => p.id === actorId);
 
-
   const actions = {
     duke: () => ({
       ok: true,
       changes: { type: "money", playerId: actorId, amount: 3 },
     }),
-    ambassador: () => ({
-      ok: true,
-      changes: [{ type: "resetCharacters", playerId: actorId }],
-    }),
+    ambassador: () => ambassadorCharacterAction(player),
     assassin: () => assassinCharacterAction(targetId, player.id, players),
     captain: () => captainCharacterAction(targetId, player, players),
   };
-  console.log(characterId)
+  console.log(characterId);
   const actionFn = actions[characterId];
 
-
   const { ok, changes, error } = actionFn();
-
+  console.log(error)
   return ok
     ? {
         ok: true,

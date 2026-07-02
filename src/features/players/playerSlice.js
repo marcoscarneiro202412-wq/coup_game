@@ -98,13 +98,12 @@ const players = createSlice({
           act.payload.targetId,
         );
 
-        console.log(ok, error, changes)
-
         if (!ok) {
           sta.error = error;
           return;
         } else {
           changes.forEach((c) => {
+            console.log(c)
             const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
             const modifiedPlayer = typeValidatorHelper(
               c,
@@ -242,14 +241,6 @@ const players = createSlice({
       },
     },
 
-    resetCharacters(sta, act) {
-      const player = sta.players.find((p) => p.id === act.payload);
-      player.characters = generateCharacter(
-        player.characters.length,
-        player.characters,
-      );
-    },
-
     cleanTheError(sta) {
       sta.error = "";
     },
@@ -270,7 +261,6 @@ export const {
   killPlayer,
   cleanThePlayers,
   cleanTheError,
-  resetCharacters,
 } = players.actions;
 
 export default players.reducer;
