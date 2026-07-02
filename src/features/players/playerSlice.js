@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { generateCharacter } from "../../domain/gamesRules";
+import { generateCharacter, resolveCoup } from "../../domain/gamesRules";
 import { safeLoadState } from "../../services/storage";
+import { typeValidatorHelper } from "../../helpers/typeValidatorHelper";
 
 const initialState = safeLoadState("players", {
   players: [],
@@ -161,22 +162,26 @@ const players = createSlice({
       },
 
       reducer(sta, act) {
-        const player = sta.players.find((p) => p.id === act.payload.playerId);
+        const { ok, error, changes } = resolveCoup(
+          sta.players,
+          act.payload.playerId,
+          act.payload.enemyId,
+        );
 
-        if (!player) {
-          sta.error = "Jogador não encontrado";
+        if (!ok) {
+          sta.error = error;
           return;
-        }
+        } else {
+          changes.forEach((c) => {
+            const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
+            const modifiedPlayer = typeValidatorHelper(
+              c,
+              sta.players[playerIdx],
+            );
 
-        if (player.money < 7) {
-          sta.error = "Jogador não tem dinheiro para realizar essa ação";
-          return;
+            sta.players[playerIdx] = modifiedPlayer;
+          });
         }
-
-        players.caseReducers.killPlayer(sta, {
-          action: "players/killPlayer",
-          payload: act.payload.enemyId,
-        });
       },
     },
 
@@ -221,20 +226,30 @@ const players = createSlice({
       },
     },
 
-    killPlayer(sta, act) {
-      const player = sta.players.find((p) => p.id === act.payload);
+    killPlayer: {
+      prepare(targetId, lifes = 1) {
+        return {
+          payload: {
+            targetId,
+            lifes,
+          },
+        };
+      },
+      reducer(sta, act) {
+        const player = sta.players.find((p) => p.id === act.payload.targetId);
 
-      if (!player) {
-        sta.error = "Jogador não encontrado";
-        return;
-      }
+        if (!player) {
+          sta.error = "Jogador não encontrado";
+          return;
+        }
 
-      player.hp--;
-      if (player.characters?.length === 0) player.characters.pop();
+        player.hp -= act.payload.lifes;
+        if (player.characters?.length === 0) player.characters.pop();
 
-      if (player.hp <= 0) {
-        player.alive = false;
-      }
+        if (player.hp <= 0) {
+          player.alive = false;
+        }
+      },
     },
 
     resetCharacters(sta, act) {

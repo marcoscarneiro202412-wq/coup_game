@@ -19,4 +19,11 @@ const verify = (character, cost = 0, player, setIsOpen) => {
   );
 };
 
+const canAction = (val, player) => player.money >= val;
+
+const canRitual = (player) => canAction(18, player);
+const canCoup = (player) => canAction(7, player);
+const canBargain = (player) => canAction(5, player);
+
 export default verify;
+export { canRitual, canCoup, canBargain };
