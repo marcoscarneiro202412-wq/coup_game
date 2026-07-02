@@ -31,7 +31,8 @@ function resolveCoup(players, actorId, targetId) {
       ok: false,
       error: "Não é possível selecionar a si mesmo como alvo.",
     };
-  if (!canCoup(actor)) return { ok: false, error: "Não é possível realizar o golpe" };
+  if (!canCoup(actor))
+    return { ok: false, error: "Não é possível realizar o golpe" };
 
   return {
     ok: true,
@@ -42,4 +43,48 @@ function resolveCoup(players, actorId, targetId) {
   };
 }
 
-export { generateCharacter, resolveCoup };
+function resolveConfront(players, actorId, targetId) {
+  const confronter = players.find((p) => p.id === actorId);
+  const confronted = players.find((p) => p.id === targetId);
+
+  if (!confronted || !confronter) {
+    return { ok: false, error: "Algum dos jogadores não existe" };
+  }
+
+  if (!confronted.declaredCharacter) {
+    return {
+      ok: false,
+      error: "O jogador confrontado não declarou nenhum personagem",
+    };
+  }
+
+  const confrontIsFalse = confronted.characters.some(
+    (c) => c.id === confronted.declaredCharacter,
+  );
+
+  const amount = Math.floor(confronter.money / 3);
+  const moneyChanges = [
+    {
+      type: "money",
+      playerId: actorId,
+      amount: !confrontIsFalse ? Math.floor(amount / 1.5) : -amount,
+    },
+    {
+      type: "money",
+      playerId: targetId,
+      amount: confrontIsFalse ? Math.floor(amount / 1.5) : -amount,
+    },
+  ];
+  
+  return {
+    ok: true,
+    changes: !confrontIsFalse
+      ? [
+          ...moneyChanges,
+          { type: "clearDeclaredCharacter", playerId: targetId },
+        ]
+      : moneyChanges,
+  };
+}
+
+export { generateCharacter, resolveCoup, resolveConfront };

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { generateCharacter, resolveCoup } from "../../domain/gamesRules";
+import { generateCharacter, resolveConfront, resolveCoup } from "../../domain/gamesRules";
 import { safeLoadState } from "../../services/storage";
 import { typeValidatorHelper } from "../../helpers/typeValidatorHelper";
 
@@ -115,43 +115,25 @@ const players = createSlice({
       },
 
       reducer(sta, act) {
-        const confronter = sta.players.find(
-          (p) => p.id === act.payload.confronterId,
-        );
-        const confronted = sta.players.find(
-          (p) => p.id === act.payload.confrontedId,
-        );
-
-        if (!confronted || !confronter) {
-          sta.error = "Algum dos jogadores não existe";
-          return;
-        }
-        if (!confronted || !confronter) {
-          sta.error = "Algum dos jogadores não existe";
-          return;
-        }
-
-        if (!confronted.declaredCharacter) {
-          sta.error = "O jogador confrontado não declarou personagem";
-          return;
-        }
-
-        const confrontIsTrue = confronted.characters.some(
-          (c) => c.id === confronted.declaredCharacter,
+        const { ok, error, changes } = resolveConfront(
+          sta.players,
+          act.payload.confronterId,
+          act.payload.confrontedId,
         );
 
-        if (confrontIsTrue) {
-          const amount = Math.floor(confronter.money / 2);
-
-          confronter.money = amount;
-          confronted.money += Math.floor(amount / 1.5);
+        if (!ok) {
+          sta.error = error;
+          return;
         } else {
-          const amount = Math.floor(confronted.money / 2);
+          changes.forEach((c) => {
+            const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
+            const modifiedPlayer = typeValidatorHelper(
+              c,
+              sta.players[playerIdx],
+            );
 
-          confronter.money += Math.floor(amount / 1.5);
-          confronted.money = amount;
-
-          confronted.declaredCharacter = null;
+            sta.players[playerIdx] = modifiedPlayer;
+          });
         }
       },
     },

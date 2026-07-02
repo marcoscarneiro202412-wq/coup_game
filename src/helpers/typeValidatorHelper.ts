@@ -13,27 +13,29 @@ type playerType = {
   money: number;
   hp: number;
   alive: boolean;
+  declaredCharacter: string | null;
   characters: object[];
 };
 
-export function typeValidatorHelper(
-  change: changeType,
-  player: playerType,
-) {
+export function typeValidatorHelper(change: changeType, player: playerType) {
+  console.log(change);
   switch (change.type) {
     case "money":
       player.money += change.amount;
       break;
     case "damage":
-      player.hp--;
+      player.hp -= change.amount;
 
       if (player.hp <= 0) {
         player.alive = false;
       }
-
+      break;
+    case "clearDeclaredCharacter":
+      player.declaredCharacter = null;
       break;
     default:
       console.error("Tipo não encontrado");
+      break;
   }
   return player;
 }
