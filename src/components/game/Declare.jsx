@@ -7,28 +7,28 @@ import { declareCharacter } from "../../features/players/playerSlice";
 
 import Modal from "../layout/Modal";
 import PlayerAction from "./PlayerAction";
-import {
-  assassinCharacterAction,
-  captainCharacterAction,
-} from "../../domain/actions";
+// import {
+//   assassinCharacterAction,
+//   captainCharacterAction,
+// } from "../../domain/actions";
 import verify from "../../domain/validation";
 
 function Declare() {
   const [isOpen, setIsOpen] = useState("");
   const [character, setCharacter] = useState("duke");
-  const players = useSelector((s) => s.players.players);
   const player = useSelector((st) => st.players.players[st.turn.currentTurn]);
   const dispatch = useDispatch();
 
   if (!player) return;
 
   const assassinAction = (attackedPlayerId) => {
-    assassinCharacterAction(attackedPlayerId, player.id, dispatch, players);
+    dispatch(declareCharacter(player.id, character, attackedPlayerId));
     setIsOpen("");
   };
 
   const captainAction = (attackedPlayerId) => {
-    captainCharacterAction(attackedPlayerId, player, players, dispatch);
+    dispatch(declareCharacter(player.id, character, attackedPlayerId));
+
     setIsOpen("");
   };
 
@@ -41,9 +41,7 @@ function Declare() {
     <div className={styles.declare}>
       <p>Declare Character</p>
       <FormControl fullWidth sx={{ color: "#fff" }}>
-        <InputLabel sx={{ color: "#fff" }}>
-          Characters
-        </InputLabel>
+        <InputLabel sx={{ color: "#fff" }}>Characters</InputLabel>
         <Select
           value={character}
           onChange={(ev) => setCharacter(ev.target.value)}

@@ -2,6 +2,8 @@ import { createListenerMiddleware } from "@reduxjs/toolkit";
 import { nextTurn } from "../features/game/turnSlice";
 import { cleanTheError } from "../features/players/playerSlice";
 
+let howManyTimeAreErrors = 0;
+
 const nextTurnMiddleware = createListenerMiddleware();
 
 nextTurnMiddleware.startListening({
@@ -18,8 +20,15 @@ nextTurnMiddleware.startListening({
   effect: (_, listener) => {
     const { players } = listener.getState();
 
-    listener.dispatch(nextTurn(players.players));
-    if(players.error) listener.dispatch(cleanTheError());
+    if (players.error) {
+      if (howManyTimeAreErrors >= 1) {
+        listener.dispatch(cleanTheError());
+        howManyTimeAreErrors = 0;
+      }
+      howManyTimeAreErrors++;
+    } else {
+      listener.dispatch(nextTurn(players.players));
+    }
   },
 });
 

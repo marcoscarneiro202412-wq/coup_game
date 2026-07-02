@@ -1,3 +1,4 @@
+import { assassinCharacterAction, captainCharacterAction } from "./actions";
 import { createDeck } from "./deck";
 import { canCoup } from "./validation";
 
@@ -75,7 +76,7 @@ function resolveConfront(players, actorId, targetId) {
       amount: confrontIsFalse ? Math.floor(amount / 1.5) : -amount,
     },
   ];
-  
+
   return {
     ok: true,
     changes: !confrontIsFalse
@@ -87,4 +88,41 @@ function resolveConfront(players, actorId, targetId) {
   };
 }
 
-export { generateCharacter, resolveCoup, resolveConfront };
+const resolveDeclare = (players, actorId, characterId, targetId) => {
+  const player = players.find((p) => p.id === actorId);
+
+
+  const actions = {
+    duke: () => ({
+      ok: true,
+      changes: { type: "money", playerId: actorId, amount: 3 },
+    }),
+    ambassador: () => ({
+      ok: true,
+      changes: [{ type: "resetCharacters", playerId: actorId }],
+    }),
+    assassin: () => assassinCharacterAction(targetId, player.id, players),
+    captain: () => captainCharacterAction(targetId, player, players),
+  };
+  console.log(characterId)
+  const actionFn = actions[characterId];
+
+
+  const { ok, changes, error } = actionFn();
+
+  return ok
+    ? {
+        ok: true,
+        changes: [
+          {
+            type: "defineDeclareCharacter",
+            playerId: actorId,
+            character: characterId,
+          },
+          ...changes,
+        ],
+      }
+    : { ok: false, error };
+};
+
+export { generateCharacter, resolveCoup, resolveConfront, resolveDeclare };

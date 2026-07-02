@@ -1,48 +1,46 @@
 import {
-  declareCharacter,
-  giveTheMoney,
-  killPlayer,
   resetCharacters,
-  takeTheMoney,
 } from "../features/players/playerSlice";
 import verify from "./validation";
 import { characters } from "../data/characters";
 
-const assassinCharacterAction = (
-  attackedPlayerId,
-  playerId,
-  dispatch,
-  players,
-) => {
-  dispatch(
-    takeTheMoney(playerId, characters.find((c) => c.id === "assassin").cost),
-  );
+const assassinCharacterAction = (attackedPlayerId, playerId, players) => {
   const target = players.find((p) => p.id === attackedPlayerId);
   if (!target) {
-    alert("O jogador que você digitou não existe! Passando turno");
-    return;
+    return { ok: false, error: "O alvo não existe!" };
   }
+
   if (!target.characters.some((c) => c.id === "contessa")) {
-    dispatch(killPlayer(attackedPlayerId));
+    return {
+      ok: true,
+      changes: [
+        { type: "damage", playerId: attackedPlayerId, amount: 1 },
+        {
+          type: "money",
+          playerId,
+          amount: -characters.find((c) => c.id === "assassin").cost,
+        },
+      ],
+    };
   } else {
-    alert("A condessa bloqueia sua faca (e seu dinheiro também)");
+    return { ok: false, error: "O alvo tem a condessa (bloqueia o assassino)" };
   }
-  dispatch(declareCharacter(playerId, "assassin"));
 };
 
-const captainCharacterAction = (
-  attackedPlayerId,
-  player,
-  players,
-  dispatch,
-) => {
+const captainCharacterAction = (attackedPlayerId, player, players) => {
   const playerTarget = players.find((p) => p.id === attackedPlayerId);
+
+  if (!playerTarget || !player) return { ok: false, error: "O capitão ou o alvo não existem" };
 
   const value = Math.min(playerTarget.money, 2);
 
-  dispatch(takeTheMoney(playerTarget.id, value));
-  dispatch(giveTheMoney(player.id, value));
-  dispatch(declareCharacter(player.id, "captain"));
+  return {
+    ok: true,
+    changes: [
+      { type: "money", playerId: player.id, amount: value },
+      { type: "money", playerId: attackedPlayerId, amount: -value },
+    ],
+  };
 };
 
 const ambassadorCharacterAction = (dispatch, player) => {

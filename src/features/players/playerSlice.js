@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { generateCharacter, resolveConfront, resolveCoup } from "../../domain/gamesRules";
+import {
+  generateCharacter,
+  resolveConfront,
+  resolveCoup,
+  resolveDeclare,
+} from "../../domain/gamesRules";
 import { safeLoadState } from "../../services/storage";
 import { typeValidatorHelper } from "../../helpers/typeValidatorHelper";
 
@@ -34,7 +39,7 @@ const players = createSlice({
             imgUrl: action.payload.imgUrl
               ? action.payload.imgUrl
               : "https://i.pinimg.com/236x/02/72/35/02723528ae01d17bbf67ccf6b8da8a6b.jpg",
-            money: 0,
+            money: 180,
             hp: 0,
             characters: [],
           },
@@ -74,38 +79,41 @@ const players = createSlice({
         sta.error = "Character not generated";
         return;
       }
-
+      player.hp++;
       player.characters = [...player.characters, character];
     },
 
     declareCharacter: {
-      prepare(playerId, characterId) {
+      prepare(playerId, characterId, targetId = null) {
         return {
-          payload: { playerId, characterId },
+          payload: { playerId, characterId, targetId },
         };
       },
 
       reducer(sta, act) {
-        const playerIdx = sta.players.findIndex(
-          (p) => p.id === act.payload.playerId,
+        const { ok, error, changes } = resolveDeclare(
+          sta.players,
+          act.payload.playerId,
+          act.payload.characterId,
+          act.payload.targetId,
         );
 
-        sta.players[playerIdx].declaredCharacter = act.payload.characterId;
+        console.log(ok, error, changes)
 
-        const actions = {
-          duke: () =>
-            players.caseReducers.giveTheMoney(
-              sta,
-              players.actions.giveTheMoney(act.payload.playerId, 3),
-            ),
-          ambassador: () =>
-            players.caseReducers.resetCharacters(
-              sta,
-              players.actions.resetCharacters(act.payload.playerId),
-            ),
-        };
+        if (!ok) {
+          sta.error = error;
+          return;
+        } else {
+          changes.forEach((c) => {
+            const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
+            const modifiedPlayer = typeValidatorHelper(
+              c,
+              sta.players[playerIdx],
+            );
 
-        actions[act.payload.characterId]?.();
+            sta.players[playerIdx] = modifiedPlayer;
+          });
+        }
       },
     },
 
