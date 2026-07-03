@@ -2,11 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #131a34;
-  padding: 25px;
-  color: #fff;
-  border-radius: 15px;
-  gap: 15px;
+  background-color: var(--color-bg-primary);
+  padding: var(--space-6);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-lg);
+  gap: var(--space-4);
 }
 
 .card img {
@@ -15,7 +15,12 @@
 }
 
 .active {
-  background: linear-gradient(135deg, #c09b3e 0%, #edd481 50%, #c09b3e 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-accent) 0%,
+    #edd481 50%,
+    var(--color-accent) 100%
+  );
   border: #f1d388 0.2px solid;
 }
 

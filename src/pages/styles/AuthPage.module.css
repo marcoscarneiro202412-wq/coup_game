@@ -6,12 +6,12 @@
 .auth {
   display: flex;
   flex-direction: column;
-  background-color: #101934;
+  background-color: var(--color-bg-secondary);
   min-height: 100vh;
   overflow-x: hidden;
   justify-content: center;
   align-items: center;
-  gap: 55px;
+  gap: 3.5rem;
   padding-bottom: 45px;
 }
 
@@ -21,7 +21,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-5);
   background: transparent;
   /* 2. O GRANDE SEGREDO: Desfoca o que está POR TRÁS do container */
   -webkit-backdrop-filter: blur(12px); /* Suporte para Safari */
@@ -31,13 +31,13 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
 
   /* Arredondamento dos cantos para um design moderno */
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
 
   /* 4. Sombra suave para dar profundidade e descolar o container do fundo */
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 
   /* Ajustes extras de espaçamento internos */
-  padding: 40px;
+  padding: var(--space-8);
   width: 100%;
   max-width: 60vw;
 }
@@ -50,16 +50,16 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: var(--space-4);
 }
 
 .form > input {
   width: 26vw;
   font-size: 21px;
-  background: #E8F0FE;
+  background: #e8f0fe;
   color: #000;
   border: 0.5px solid #00000031;
-  border-radius: 15px;
+  border-radius: var(--radius-lg);
   outline: none;
   padding: 15px;
   transition: 0.3s ease all;
@@ -74,9 +74,14 @@
   outline: none;
   border: none;
   font-size: 18px;
-  border-radius: 45px;
+  border-radius: var(--radius-pill);
   color: #fff;
-  background: linear-gradient(135deg, #c09b3e 0%, #8b6d20 75%, #877034 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-accent) 0%,
+    var(--color-accent-strong) 75%,
+    #877034 100%
+  );
   cursor: pointer;
   transition: 0.3s ease all;
   width: 60%;

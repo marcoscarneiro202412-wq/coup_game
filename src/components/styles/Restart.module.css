@@ -5,17 +5,17 @@
   gap: 7px;
   cursor: pointer;
   right: 16px;
-  color: #fff;
+  color: var(--color-text-primary);
   align-items: center;
 }
 
 .restart {
-    font-size: 40px;
+  font-size: 40px;
   transform-origin: center;
 }
 
 .restart:active {
-    animation: restart .5s ease;
+  animation: restart 0.5s ease;
 }
 
 @keyframes restart {

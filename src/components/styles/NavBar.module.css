@@ -1,7 +1,7 @@
 .nav {
   display: flex;
   justify-content: space-around;
-  background-color: #101934;
+  background-color: var(--color-bg-secondary);
   width: 100vw;
   height: fit-content;
   padding: 15px;
@@ -56,6 +56,6 @@
 }
 
 :global(a.active):not(.login) {
-  color: #2d3d77;
+  color: var(--color-bg-surface);
   font-weight: bold;
 }

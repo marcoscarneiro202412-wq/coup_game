@@ -1,9 +1,9 @@
 .user {
   position: absolute;
   top: 1rem;
-  right: .5rem;
-  background-color: rgb(36, 42, 46);
-  padding: .6rem 1rem;
+  right: 0.5rem;
+  background-color: var(--color-bg-card-alt);
+  padding: 0.6rem 1rem;
   border-radius: 7px;
   z-index: 999;
   box-shadow: 0 0.8rem 2.4rem rgba(36, 42, 46, 0.5);
@@ -14,7 +14,7 @@
   align-items: center;
   gap: 1rem;
 
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .user img {

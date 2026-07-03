@@ -1,12 +1,42 @@
 @import url("https://fonts.googleapis.com/css2?family=Pliant:ital,wght@0,100..900;1,100..900&display=swap");
 
 *[disabled] {
-  opacity: .5;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 :root {
   --color-border-1: #303748;
+  --color-bg-primary: #0d1323;
+  --color-bg-secondary: #101934;
+  --color-bg-card: #192033;
+  --color-bg-card-alt: #171e35;
+  --color-bg-surface: #25335c;
+  --color-bg-surface-strong: #435280;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #dddddd;
+  --color-text-muted: #7f8497;
+  --color-accent: #c09b3e;
+  --color-accent-strong: #8b6d20;
+  --color-accent-light: #f4d35e;
+  --color-accent-gold: #d4af37;
+  --color-success: #96d670;
+  --color-success-strong: #436f29;
+  --color-danger: #f34d4d;
+  --color-shadow: rgba(0, 0, 0, 0.2);
+  --color-shadow-strong: rgba(0, 0, 0, 0.35);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.5rem;
+  --radius-pill: 999px;
 }
 
 * {

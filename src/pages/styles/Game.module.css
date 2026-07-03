@@ -1,6 +1,6 @@
 .game {
   display: flex;
-  background: #0d1323;
+  background: var(--color-bg-primary);
   min-height: 110vh;
   width: 100%;
   overflow: hidden;
@@ -25,8 +25,8 @@
 
 .buttons button {
   border-radius: 15px;
-  border: 1px solid #ccc;
-  background-color: #96d670;
+  border: 1px solid var(--color-text-secondary);
+  background-color: var(--color-success);
   color: #000;
   padding: 15px;
   width: fit-content;
@@ -37,7 +37,7 @@
 }
 
 .buttons button:hover {
-  background-color: #436f29;
+  background-color: var(--color-success-strong);
   transform: scale(1.1);
-  color: #fff;
+  color: var(--color-text-primary);
 }

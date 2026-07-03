@@ -1,12 +1,12 @@
 .home {
   display: flex;
   flex-direction: column;
-    background-color: #101934;
+  background-color: var(--color-bg-secondary);
 
   min-height: 100vh;
   justify-content: center;
   align-items: center;
-  gap: 55px;
+  gap: 3.5rem;
   overflow-x: hidden;
   padding-bottom: 75px;
 }
@@ -24,7 +24,7 @@
   box-shadow: 15px 10px 15px -3px rgba(0, 0, 0, 0.1);
   width: 50%;
   height: 55vh;
-  border-radius: 55px;
+  border-radius: var(--radius-xl);
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -41,18 +41,23 @@
 .central p {
   width: 75%;
   text-align: center;
-  color: #ddd;
+  color: var(--color-text-secondary);
   font-weight: bold;
 }
 
 .central button {
   outline: none;
   border: none;
-  padding: 15px;
+  padding: var(--space-4);
   font-size: 18px;
-  border-radius: 45px;
+  border-radius: var(--radius-pill);
   color: #fff;
-  background: linear-gradient(135deg, #c09b3e 0%, #8b6d20 75%, #877034 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-accent) 0%,
+    var(--color-accent-strong) 75%,
+    #877034 100%
+  );
   cursor: pointer;
   transition: 0.3s ease all;
   font-size: 50px;
