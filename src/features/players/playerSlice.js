@@ -103,7 +103,7 @@ const players = createSlice({
           return;
         } else {
           changes.forEach((c) => {
-            console.log(c)
+            console.log(c);
             const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
             const modifiedPlayer = typeValidatorHelper(
               c,
@@ -176,14 +176,19 @@ const players = createSlice({
 
     bargain(sta, act) {
       const player = sta.players.find((p) => p.id === act.payload);
-      if (player.money < 6) return;
+      const { ok, error, changes } = resolveCoup(player);
 
-      players.caseReducers.takeTheMoney(
-        sta,
-        players.actions.takeTheMoney(player.id, 6),
-      );
+      if (!ok) {
+        sta.error = error;
+        return;
+      } else {
+        changes.forEach((c) => {
+          const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
+          const modifiedPlayer = typeValidatorHelper(c, sta.players[playerIdx]);
 
-      players.caseReducers.resetCharacters(sta, act);
+          sta.players[playerIdx] = modifiedPlayer;
+        });
+      }
     },
 
     auxilio(sta, act) {

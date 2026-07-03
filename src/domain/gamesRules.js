@@ -4,7 +4,7 @@ import {
   captainCharacterAction,
 } from "./actions";
 import { createDeck } from "./deck";
-import { canCoup } from "./validation";
+import { canBargain, canCoup } from "./validation";
 
 function generateCharacter(quantity, existentCharacters = [], isBargain) {
   const deck = createDeck(existentCharacters, isBargain);
@@ -104,11 +104,10 @@ const resolveDeclare = (players, actorId, characterId, targetId) => {
     assassin: () => assassinCharacterAction(targetId, player.id, players),
     captain: () => captainCharacterAction(targetId, player, players),
   };
-  console.log(characterId);
   const actionFn = actions[characterId];
 
   const { ok, changes, error } = actionFn();
-  console.log(error)
+  console.log(error);
   return ok
     ? {
         ok: true,
@@ -124,4 +123,25 @@ const resolveDeclare = (players, actorId, characterId, targetId) => {
     : { ok: false, error };
 };
 
-export { generateCharacter, resolveCoup, resolveConfront, resolveDeclare };
+const resolveBargain = (player) => {
+  if (!player) return { ok: false, error: "Jogador não encontrado" };
+
+  if (!canBargain(player))
+    return { ok: false, error: "O Jogador não pode barganhar" };
+
+  return {
+    ok: true,
+    changes: [
+      { type: "money", playerId: player.id, amount: 6 },
+      { type: "resetCharacters", playerId: player.id },
+    ],
+  };
+};
+
+export {
+  generateCharacter,
+  resolveCoup,
+  resolveConfront,
+  resolveDeclare,
+  resolveBargain,
+};
