@@ -8,6 +8,7 @@ import authMiddleware from "../middleware/authMiddleware";
 import authReducer from "../features/auth/authSlice";
 import interceptMiddleware from "../middleware/interceptMiddleware";
 import finalizeGameMiddleware from "../middleware/finalizeGameMiddleware";
+import logReducer from "../features/log/logSlice";
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     game: gameReducer,
     turn: turnReducer,
     auth: authReducer,
+    log: logReducer,
   },
   middleware: (getDefault) =>
     getDefault().concat(
@@ -22,7 +24,7 @@ const store = configureStore({
       authMiddleware.middleware,
       interceptMiddleware.middleware,
       finalizeGameMiddleware.middleware,
-      hpListenerMiddleware.middleware
+      hpListenerMiddleware.middleware,
     ),
 });
 
