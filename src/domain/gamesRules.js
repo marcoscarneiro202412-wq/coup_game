@@ -4,7 +4,7 @@ import {
   captainCharacterAction,
 } from "./actions";
 import { createDeck } from "./deck";
-import { canBargain, canCoup } from "./validation";
+import { canBargain, canCoup, canRitual } from "./validation";
 
 function generateCharacter(quantity, existentCharacters = [], isBargain) {
   const deck = createDeck(existentCharacters, isBargain);
@@ -138,10 +138,36 @@ const resolveBargain = (player) => {
   };
 };
 
+const resolveRitual = (player) => {
+  if (!player) return { ok: false, error: "Jogador não existe!" };
+
+  if (!canRitual(player))
+    return {
+      ok: false,
+      error: "O Jogador não possui dinheiro suficiente para fazer um ritual",
+    };
+
+  const [character] = generateCharacter(1, player.characters);
+  if (!character)
+    return { ok: false, error: "Um personagem novo não conseguiu ser criado!" };
+
+  player.hp++;
+  player.characters = [...player.characters, character];
+
+  return {
+    ok: true,
+    changes: [
+      { type: "money", playerId: player.id, amount: -18 },
+      { type: "heal", playerId: player.id, character: character },
+    ],
+  };
+};
+
 export {
   generateCharacter,
   resolveCoup,
   resolveConfront,
   resolveDeclare,
   resolveBargain,
+  resolveRitual
 };

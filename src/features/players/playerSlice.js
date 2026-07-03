@@ -4,6 +4,7 @@ import {
   resolveConfront,
   resolveCoup,
   resolveDeclare,
+  resolveRitual,
 } from "../../domain/gamesRules";
 import { safeLoadState } from "../../services/storage";
 import { typeValidatorHelper } from "../../helpers/typeValidatorHelper";
@@ -61,26 +62,20 @@ const players = createSlice({
 
     giveALive(sta, act) {
       const player = sta.players.find((p) => p.id === act.payload);
+      const { ok, error, changes } = resolveRitual(player);
 
-      if (!player) {
-        sta.error = "Player not found";
+      if (!ok) {
+        sta.error = error;
         return;
+      } else {
+        changes.forEach((c) => {
+          console.log(c);
+          const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
+          const modifiedPlayer = typeValidatorHelper(c, sta.players[playerIdx]);
+
+          sta.players[playerIdx] = modifiedPlayer;
+        });
       }
-
-      if (player.money < 18) return;
-
-      players.caseReducers.takeTheMoney(
-        sta,
-        players.actions.takeTheMoney(act.payload, 18),
-      );
-
-      const [character] = generateCharacter(1, player.characters);
-      if (!character) {
-        sta.error = "Character not generated";
-        return;
-      }
-      player.hp++;
-      player.characters = [...player.characters, character];
     },
 
     declareCharacter: {
@@ -192,32 +187,13 @@ const players = createSlice({
     },
 
     auxilio(sta, act) {
-      players.caseReducers.giveTheMoney(
-        sta,
-        players.actions.giveTheMoney(act.payload, 2),
-      );
-    },
+      const player = sta.players.find((p) => p.id === act.payload.id);
 
-    takeTheMoney: {
-      prepare(playerId, amount) {
-        return { payload: { playerId, amount } };
-      },
+      if (!player) {
+        sta.error = "Jogador não encontrado";
+      }
 
-      reducer(sta, act) {
-        const player = sta.players.find((p) => p.id === act.payload.playerId);
-        player.money -= Math.min(act.payload.amount, player.money);
-      },
-    },
-
-    giveTheMoney: {
-      prepare(playerId, amount) {
-        return { payload: { playerId, amount } };
-      },
-
-      reducer(sta, act) {
-        const player = sta.players.find((p) => p.id === act.payload.playerId);
-        player.money += act.payload.amount;
-      },
+      player.money += 2;
     },
 
     killPlayer: {
@@ -261,8 +237,6 @@ export const {
   coupDEtat,
   bargain,
   auxilio,
-  takeTheMoney,
-  giveTheMoney,
   killPlayer,
   cleanThePlayers,
   cleanTheError,

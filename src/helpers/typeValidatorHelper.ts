@@ -1,13 +1,6 @@
 import { generateCharacter } from "../domain/gamesRules";
 import { killPlayer } from "../features/players/playerSlice";
 
-type changeType = {
-  type: string;
-  ok: boolean;
-  amount: number;
-  character: string;
-};
-
 type characterType = {
   id: string;
   attackOtherPlayer: boolean;
@@ -15,6 +8,13 @@ type characterType = {
   action: string;
   cost: number;
   description: string;
+};
+
+type changeType = {
+  type: string;
+  ok: boolean;
+  amount: number;
+  character: string | characterType;
 };
 
 type playerType = {
@@ -47,14 +47,13 @@ export function typeValidatorHelper(change: changeType, player: playerType) {
       player.declaredCharacter = null;
       break;
     case "defineDeclareCharacter":
-      player.declaredCharacter = change.character;
+      player.declaredCharacter = change.character as string;
       break;
     case "resetCharacters":
-      console.log(player.characters)
       const generated = generateCharacter(
         player.characters.length,
         player.characters,
-        true
+        true,
       );
 
       if (generated) {
@@ -64,6 +63,13 @@ export function typeValidatorHelper(change: changeType, player: playerType) {
       } else {
         player.characters = player.characters;
       }
+      break;
+    case "heal":
+      if (typeof change.character !== "string") {
+        player.characters = [...player.characters, change.character];
+        player.hp++;
+      }
+      break;
     default:
       console.error("Tipo não encontrado");
       break;
