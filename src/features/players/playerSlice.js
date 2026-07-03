@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   generateCharacter,
+  resolveBargain,
   resolveConfront,
   resolveCoup,
   resolveDeclare,
   resolveRitual,
 } from "../../domain/gamesRules";
 import { safeLoadState } from "../../services/storage";
-import { typeValidatorHelper } from "../../helpers/typeValidatorHelper";
+import { resolveHelper } from "../../helpers/resolveHelper";
 
 const initialState = safeLoadState("players", {
   players: [],
@@ -62,20 +63,7 @@ const players = createSlice({
 
     giveALive(sta, act) {
       const player = sta.players.find((p) => p.id === act.payload);
-      const { ok, error, changes } = resolveRitual(player);
-
-      if (!ok) {
-        sta.error = error;
-        return;
-      } else {
-        changes.forEach((c) => {
-          console.log(c);
-          const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
-          const modifiedPlayer = typeValidatorHelper(c, sta.players[playerIdx]);
-
-          sta.players[playerIdx] = modifiedPlayer;
-        });
-      }
+      return resolveHelper(resolveRitual(player), sta);
     },
 
     declareCharacter: {
@@ -86,28 +74,15 @@ const players = createSlice({
       },
 
       reducer(sta, act) {
-        const { ok, error, changes } = resolveDeclare(
-          sta.players,
-          act.payload.playerId,
-          act.payload.characterId,
-          act.payload.targetId,
+        return resolveHelper(
+          resolveDeclare(
+            sta.players,
+            act.payload.playerId,
+            act.payload.characterId,
+            act.payload.targetId,
+          ),
+          sta,
         );
-
-        if (!ok) {
-          sta.error = error;
-          return;
-        } else {
-          changes.forEach((c) => {
-            console.log(c);
-            const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
-            const modifiedPlayer = typeValidatorHelper(
-              c,
-              sta.players[playerIdx],
-            );
-
-            sta.players[playerIdx] = modifiedPlayer;
-          });
-        }
       },
     },
 
@@ -117,26 +92,14 @@ const players = createSlice({
       },
 
       reducer(sta, act) {
-        const { ok, error, changes } = resolveConfront(
-          sta.players,
-          act.payload.confronterId,
-          act.payload.confrontedId,
+        return resolveHelper(
+          resolveConfront(
+            sta.players,
+            act.payload.confronterId,
+            act.payload.confrontedId,
+          ),
+          sta,
         );
-
-        if (!ok) {
-          sta.error = error;
-          return;
-        } else {
-          changes.forEach((c) => {
-            const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
-            const modifiedPlayer = typeValidatorHelper(
-              c,
-              sta.players[playerIdx],
-            );
-
-            sta.players[playerIdx] = modifiedPlayer;
-          });
-        }
       },
     },
 
@@ -146,48 +109,20 @@ const players = createSlice({
       },
 
       reducer(sta, act) {
-        const { ok, error, changes } = resolveCoup(
-          sta.players,
-          act.payload.playerId,
-          act.payload.enemyId,
+        return resolveHelper(
+          resolveCoup(sta.players, act.payload.playerId, act.payload.enemyId),
+          sta,
         );
-
-        if (!ok) {
-          sta.error = error;
-          return;
-        } else {
-          changes.forEach((c) => {
-            const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
-            const modifiedPlayer = typeValidatorHelper(
-              c,
-              sta.players[playerIdx],
-            );
-
-            sta.players[playerIdx] = modifiedPlayer;
-          });
-        }
       },
     },
 
     bargain(sta, act) {
       const player = sta.players.find((p) => p.id === act.payload);
-      const { ok, error, changes } = resolveCoup(player);
-
-      if (!ok) {
-        sta.error = error;
-        return;
-      } else {
-        changes.forEach((c) => {
-          const playerIdx = sta.players.findIndex((p) => p.id === c.playerId);
-          const modifiedPlayer = typeValidatorHelper(c, sta.players[playerIdx]);
-
-          sta.players[playerIdx] = modifiedPlayer;
-        });
-      }
+      return resolveHelper(resolveBargain(player), sta);
     },
 
     auxilio(sta, act) {
-      const player = sta.players.find((p) => p.id === act.payload.id);
+      const player = sta.players.find((p) => p.id === act.payload);
 
       if (!player) {
         sta.error = "Jogador não encontrado";
