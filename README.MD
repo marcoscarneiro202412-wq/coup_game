@@ -1,10 +1,24 @@
-# Project Documentation
+# Coup Game
 
-## Project Overview
+Aplicação web em React para jogar uma experiência local inspirada em Coup, com cadastro de jogadores, turnos, ações, persistência de estado e fluxo de autenticação.
 
-This project is a React implementation of a local Coup-inspired game. Players are registered inside the app, receive character cards, take turns, perform actions, lose HP, and eventually one winner remains.
+## Visão geral
 
-Main technologies:
+Este projeto foi criado para oferecer uma versão simples e interativa do jogo, permitindo que um grupo de jogadores participe de uma partida local diretamente no navegador. A lógica do jogo, o estado global e a navegação foram organizados com React, Redux Toolkit e React Router.
+
+## Principais funcionalidades
+
+- Cadastro de jogadores com nome e avatar opcional
+- Início de partida com distribuição inicial de personagens
+- Turnos e rodada do jogo
+- Ações de jogo, como declarar personagem, confrontar, atacar e realizar ações especiais
+- Controle de vida, dinheiro e status dos jogadores
+- Tela de vencedor ao final da partida
+- Autenticação básica de usuário
+- Histórico de partidas salvo por meio de uma API externa
+- Persistência local do estado para melhorar a experiência
+
+## Tecnologias utilizadas
 
 - React 18
 - Vite
@@ -12,447 +26,102 @@ Main technologies:
 - React Redux
 - React Router
 - CSS Modules
-- MUI components for some selects
+- Material UI para alguns controles de interface
 
-## Current App Flow
+## Estrutura do projeto
+
+A organização do projeto segue a separação entre páginas, componentes, estado global, regras de domínio e middleware:
+
+- src/pages: telas principais da aplicação
+- src/components: elementos visuais e blocos reutilizáveis
+- src/features: slices do Redux para autenticação, jogadores, jogo e turnos
+- src/domain: regras e lógica relacionada ao funcionamento do jogo
+- src/middleware: efeitos colaterais e integração com persistência/fluxo de partida
+- src/services: integração com armazenamento local e APIs externas
+
+## Fluxo da aplicação
 
 ```text
 Home
-  -> Login or Signup
-  -> Register Players
-  -> Play Game
-  -> Winner
-  -> Home
+  -> Login ou cadastro
+  -> Registro de jogadores
+  -> Início da partida
+  -> Tela principal do jogo
+  -> Tela de vencedor
 ```
 
-Current routes:
+Rotas principais:
 
 ```text
-/                Home
-/login           Login form
-/signup          Signup form
-/history         User match history
-/game            Redirects to /game/register
-/game/register   Local player registration
-/game/play       Main game screen
-/game/winner     Winner screen
+/                Página inicial
+/login           Tela de login
+/signup          Tela de cadastro
+/history         Histórico do usuário
+/game/register  Cadastro de jogadores para a partida
+/game/play      Tela principal do jogo
+/game/winner    Tela de vencedor
 ```
 
-## Important Source Files
+## Como executar localmente
 
-```text
-src/App.jsx
-```
+### Requisitos
 
-Defines the browser routes.
+- Node.js 18+
+- npm
 
-```text
-src/main.jsx
-```
-
-Mounts React and provides the Redux store.
-
-```text
-src/app/store.js
-```
-
-Creates the Redux store and registers reducers and listener middleware.
-
-```text
-src/data/characters.js
-```
-
-Defines available character roles.
-
-```text
-src/features/players/playerSlice.js
-```
-
-Stores players and most game actions.
-
-```text
-src/features/game/gameSlice.js
-```
-
-Stores match status and winner.
-
-```text
-src/features/game/turnSlice.js
-```
-
-Stores current turn and round number.
-
-```text
-src/features/auth/authSlice.js
-```
-
-Stores user authentication state.
-
-```text
-src/middleware/*.js
-```
-
-Handles side effects such as auth API requests, localStorage persistence, turn advancement, HP listener behavior, and final match history save.
-
-## Current Redux State
-
-### Auth State
-
-```js
-{
-  isLoading: false,
-  error: "",
-  user: null,
-  isAuthenticated: false
-}
-```
-
-Purpose:
-
-- Track logged-in user.
-- Track login/signup loading.
-- Track auth errors.
-
-### Players State
-
-```js
-{
-  players: [
-    {
-      id: 1,
-      name: "Player name",
-      imgUrl: "avatar url",
-      money: 0,
-      hp: 1,
-      characters: [],
-      alive: true,
-      declaredCharacter: "duke"
-    }
-  ]
-}
-```
-
-Purpose:
-
-- Store local match players.
-- Store coins, HP, cards, and alive status.
-
-### Game State
-
-```js
-{
-  status: "waiting",
-  winner: null,
-  gameStarted: false
-}
-```
-
-Purpose:
-
-- Track whether a game is active.
-- Store winner information.
-
-### Turn State
-
-```js
-{
-  currentTurn: 0,
-  round: 1
-}
-```
-
-Purpose:
-
-- Store whose turn it is.
-- Count rounds.
-
-## Character Data
-
-Current characters:
-
-- Duke
-- Assassin
-- Captain
-- Ambassador
-- Contessa
-
-Each character has:
-
-```js
-{
-  id: "duke",
-  name: "Duke",
-  action: "tax",
-  description: "Recebe 3 moedas do tesouro.",
-  attackOtherPlayer: false
-}
-```
-
-## Current Game Actions
-
-### Register Player
-
-Source:
-
-```text
-src/pages/RegisterPlayers.jsx
-src/features/players/playerSlice.js
-```
-
-Behavior:
-
-- User enters name and optional avatar URL.
-- App rejects duplicate names.
-- App creates a player with money `0`, HP `0`, and no characters.
-
-### Start Game
-
-Source:
-
-```text
-src/pages/RegisterPlayers.jsx
-src/features/players/playerSlice.js
-src/features/game/gameSlice.js
-```
-
-Behavior:
-
-- Requires at least 3 players.
-- Generates one character for each player.
-- Sets each player to alive with HP `1`.
-- Sets game status to started.
-
-### Declare Character
-
-Source:
-
-```text
-src/components/Declare.jsx
-src/features/players/playerSlice.js
-src/middleware/playerInteractMiddleware.js
-```
-
-Behavior:
-
-- Current player selects a character to declare.
-- Duke gives 3 coins immediately.
-- Ambassador may exchange cards if the player really has Ambassador.
-- Assassin and Captain are handled by middleware because they attack another player.
-
-### Coup D'Etat
-
-Source:
-
-```text
-src/components/Actions.jsx
-src/features/players/playerSlice.js
-```
-
-Behavior:
-
-- Costs 7 coins.
-- Asks for a target by name.
-- Removes 1 HP from target.
-- Removes one character card from target.
-
-### Bargain
-
-Source:
-
-```text
-src/components/Actions.jsx
-src/features/players/playerSlice.js
-```
-
-Behavior:
-
-- Costs 6 coins.
-- Randomly replaces current player cards.
-
-### Ritual
-
-Source:
-
-```text
-src/components/Actions.jsx
-src/features/players/playerSlice.js
-```
-
-Behavior:
-
-- Costs 18 coins.
-- Adds a new character and HP if possible.
-
-### Pedir Auxilio
-
-Source:
-
-```text
-src/components/Actions.jsx
-src/features/players/playerSlice.js
-```
-
-Behavior:
-
-- Gives current player 2 coins.
-
-### Confront
-
-Source:
-
-```text
-src/components/Confront.jsx
-src/features/players/playerSlice.js
-```
-
-Behavior:
-
-- Lets one player challenge another player's declaration.
-- Current implementation transfers money depending on whether the declaration was truthful.
-
-## Middleware Responsibilities
-
-### Auth Middleware
-
-File:
-
-```text
-src/middleware/authMiddleware.js
-```
-
-Responsibilities:
-
-- Login API request.
-- Signup API request.
-- Delete history API request.
-- Dispatch user or error updates.
-
-### Intercept Middleware
-
-File:
-
-```text
-src/middleware/interceptMiddleware.js
-```
-
-Responsibilities:
-
-- Save players, turn, auth, and game state to localStorage after every action.
-
-### HP Listener Middleware
-
-File:
-
-```text
-src/middleware/hpListenerMiddleware.js
-```
-
-Responsibilities:
-
-- Watch HP changes.
-- Remove dead players.
-- Finalize game if one player remains.
-- Adjust current turn when player list changes.
-
-### Next Turn Middleware
-
-File:
-
-```text
-src/middleware/nextTurnMiddleware.js
-```
-
-Responsibilities:
-
-- Advance turn after selected actions.
-
-### Player Interact Middleware
-
-File:
-
-```text
-src/middleware/playerInteractMiddleware.js
-```
-
-Responsibilities:
-
-- Handle Assassin and Captain actions.
-- Ask user for targets with `prompt`.
-- Show results with `alert`.
-
-### Finalize Game Middleware
-
-File:
-
-```text
-src/middleware/finalizeGameMiddleware.js
-```
-
-Responsibilities:
-
-- Save match result to remote history API.
-- Update user history.
-- Clear players and reset persisted game state.
-
-## Local Development
-
-Install dependencies:
+### Instalação
 
 ```bash
 npm install
 ```
 
-Run development server:
+### Desenvolvimento
 
 ```bash
 npm run start
 ```
 
-Run lint:
-
-```bash
-npm run lint
-```
-
-Build production version:
+### Build
 
 ```bash
 npm run build
 ```
 
-Preview production build:
+### Lint
+
+```bash
+npm run lint
+```
+
+### Preview da build
 
 ```bash
 npm run preview
 ```
 
-## Current External API
+## Como usar o jogo
 
-The app currently calls:
+1. Acesse a aplicação no navegador.
+2. Faça login ou crie uma conta.
+3. Cadastre pelo menos 3 jogadores.
+4. Inicie a partida.
+5. Cada jogador deve declarar um personagem e executar as ações disponíveis durante o turno.
+6. O jogo segue até restar apenas um jogador vivo, quando a tela de vencedor é exibida.
 
-```text
-https://users-api-coup.onrender.com/auth/login
-https://users-api-coup.onrender.com/auth/signup
-https://users-api-coup.onrender.com/history/create
-https://users-api-coup.onrender.com/history/delete
-```
+## Observações importantes
 
-These calls are made from middleware.
+- O projeto ainda depende de uma API externa para autenticação e histórico.
+- Algumas interações do jogo ainda usam prompts e alerts no navegador.
+- A lógica de regras está distribuída entre reducers, helpers e middlewares.
+- O projeto é mais voltado para demonstração e estudo de arquitetura React/Redux do que para um produto totalmente robusto.
 
-## Known Limitations
+## Próximos passos possíveis
 
-- The app currently depends on a remote API for auth/history.
-- The game logic is not covered by automated tests.
-- Browser prompts are used for target selection.
-- There is no central protected route component.
-- Game rules are partly implemented in reducers and partly in middleware.
-- The current deck has only one copy of each character role.
-- Winner state may be cleared before the winner page can display it.
+- Melhorar a organização das regras do jogo
+- Adicionar testes automatizados
+- Substituir interações com prompt por uma interface mais fluida
+- Expandir a experiência de histórico e persistência
 
-## Recommended Documentation To Add Later
+## Licença
 
-- `RULES.md`: exact game rules implemented by this app.
-- `API.md`: remote API request and response contracts.
-- `STATE.md`: Redux state shape and action catalog.
-- `TESTING.md`: how to run and write tests.
-- `CONTRIBUTING.md`: coding conventions for future students.
+Este projeto é de uso pessoal e acadêmico, e pode ser adaptado conforme necessário.
