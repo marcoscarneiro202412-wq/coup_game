@@ -1,14 +1,16 @@
-import RegisterPlayers from "./pages/RegisterPlayers";
-import Game from "./pages/Game";
-import Winner from "./pages/Winner";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import AuthPage from "./pages/AuthPage";
-import History from "./pages/History";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { resetPage } from "./features/auth/authSlice";
-import ProtectedRoute from "./pages/routes/ProtectedRoute";
+import LoaderFullPage from "./components/ui/LoaderFullPage";
+
+const ProtectedRoute = lazy(() => import("./pages/routes/ProtectedRoute"));
+const RegisterPlayers = lazy(() => import("./pages/RegisterPlayers"));
+const Game = lazy(() => import("./pages/Game"));
+const Winner = lazy(() => import("./pages/Winner"));
+const Home = lazy(() => import("./pages/Home"));
+const AuthPage = lazy(() => import("./pages/AuthPage"));
+const History = lazy(() => import("./pages/History"));
 
 function App() {
   const dispatch = useDispatch();
@@ -16,8 +18,8 @@ function App() {
     dispatch(resetPage());
   }, [dispatch]);
   return (
-    <div>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Suspense fallback={<LoaderFullPage />}>
         <Routes>
           <Route
             path="/history"
@@ -66,8 +68,8 @@ function App() {
             />
           </Route>
         </Routes>
-      </BrowserRouter>
-    </div>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 
