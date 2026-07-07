@@ -151,9 +151,6 @@ const resolveRitual = (player) => {
   if (!character)
     return { ok: false, error: "Um personagem novo não conseguiu ser criado!" };
 
-  player.hp++;
-  player.characters = [...player.characters, character];
-
   return {
     ok: true,
     changes: [

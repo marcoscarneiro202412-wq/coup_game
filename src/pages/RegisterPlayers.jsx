@@ -45,12 +45,13 @@ function RegisterPlayers() {
           dispatch(
             createPlayer(nameRef.current.value, imgUrlRef.current.value),
           );
+
         }}
       >
         <h1 style={{ color: "#fff", fontSize: "42px" }}>Registrar Jogadores</h1>
         <input required placeholder="Nome do Jogador" ref={nameRef} />
         <input placeholder="Url do Jogador" ref={imgUrlRef} />
-        <button>Cadastrar Jogador</button>
+        <button type="submit">Cadastrar Jogador</button>
       </form>
 
       <button
