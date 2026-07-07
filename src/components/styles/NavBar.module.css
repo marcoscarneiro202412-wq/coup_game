@@ -1,11 +1,16 @@
 .nav {
   display: flex;
   justify-content: space-around;
-  background-color: var(--color-bg-secondary);
-  width: 100vw;
+  align-items: center;
+  background-color: var(--color-bg-card-alt);
+  width: 100%;
+  max-width: 100%;
   height: fit-content;
-  padding: 15px;
+  padding: 15px 1rem;
   overflow-y: hidden;
+  flex-wrap: wrap;
+  -webkit-box-shadow: 10px 10px 20px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 10px 10px 20px 5px rgba(0, 0, 0, 0.5);  
 }
 
 .logo {
@@ -41,6 +46,39 @@
 .actions a:hover:not(.login) {
   transform: scale(1.1);
   color: #6b7590;
+}
+
+@media (max-width: 720px) {
+  .logo {
+    font-size: 52px;
+  }
+
+  .actions {
+    gap: 20px;
+    padding: 0;
+  }
+
+  .actions a {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 520px) {
+  .nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .actions a {
+    font-size: 20px;
+  }
 }
 
 .login {

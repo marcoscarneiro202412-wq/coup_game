@@ -9,7 +9,6 @@
   background-color: var(--color-bg-secondary);
   min-height: 100vh;
   overflow-x: hidden;
-  justify-content: center;
   align-items: center;
   gap: 3.5rem;
   padding-bottom: 45px;
@@ -39,7 +38,7 @@
   /* Ajustes extras de espaçamento internos */
   padding: var(--space-8);
   width: 100%;
-  max-width: 60vw;
+  max-width: min(60vw, 520px);
 }
 
 .principal h1 {
@@ -50,11 +49,13 @@
 .form {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: var(--space-4);
 }
 
 .form > input {
-  width: 26vw;
+  width: min(26vw, 360px);
   font-size: 21px;
   background: #e8f0fe;
   color: #000;
@@ -84,11 +85,51 @@
   );
   cursor: pointer;
   transition: 0.3s ease all;
-  width: 60%;
+  width: min(60%, 360px);
   padding: 15px;
 }
 
 .principal button:hover {
   background: linear-gradient(135deg, #dbb147 0%, #b78f2b 75%, #ad8f42 100%);
   transform: scale(1.1);
+}
+
+@media (max-width: 900px) {
+  .principal {
+    max-width: 90vw;
+    padding: 2rem;
+  }
+
+  .principal h1 {
+    font-size: 34px;
+  }
+
+  .form > input {
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .principal button {
+    width: 100%;
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 520px) {
+  .principal {
+    padding: 1.5rem;
+  }
+
+  .principal h1 {
+    font-size: 28px;
+  }
+
+  .form {
+    gap: var(--space-3);
+  }
+
+  .principal button {
+    font-size: 16px;
+    padding: 12px;
+  }
 }

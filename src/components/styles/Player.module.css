@@ -19,11 +19,30 @@
   gap: 45px;
   border-radius: var(--radius-xl);
   height: auto;
+  width: min(95%, 720px);
 }
 
 .player img {
   border-radius: 50%;
   width: 150px;
+}
+
+@media (max-width: 720px) {
+  .player {
+    flex-direction: column;
+    padding: 24px;
+    gap: 20px;
+  }
+
+  .player img {
+    width: 120px;
+  }
+
+  .info {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
 }
 
 .info {

@@ -17,6 +17,27 @@
   color: var(--color-text-primary);
 }
 
+@media (max-width: 720px) {
+  .user {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: min(95%, 420px);
+    margin: 0 auto;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .user img {
+    height: 3rem;
+  }
+
+  .user button {
+    padding: 0.5rem 0.9rem;
+    font-size: 1rem;
+  }
+}
+
 .user img {
   border-radius: 100px;
   height: 4rem;

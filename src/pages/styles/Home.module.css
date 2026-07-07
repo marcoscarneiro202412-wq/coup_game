@@ -68,3 +68,54 @@
   background: linear-gradient(135deg, #dbb147 0%, #b78f2b 75%, #ad8f42 100%);
   transform: scale(1.1);
 }
+@media (max-width: 900px) {
+  .home {
+    gap: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .home h1 {
+    font-size: 48px;
+  }
+
+  .central {
+    width: min(90%, 700px);
+    height: auto;
+    padding: 2rem;
+  }
+
+  .central h2 {
+    font-size: 32px;
+  }
+
+  .central p {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .central button {
+    font-size: 24px;
+    width: 100%;
+    max-width: 420px;
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .home h1 {
+    font-size: 38px;
+    margin-top: 15px;
+  }
+
+  .central {
+    padding: 1.5rem;
+  }
+
+  .central h2 {
+    font-size: 28px;
+  }
+
+  .central button {
+    font-size: 22px;
+  }
+}

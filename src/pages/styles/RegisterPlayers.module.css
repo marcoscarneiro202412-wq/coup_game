@@ -21,7 +21,7 @@
 }
 
 .form > input {
-  width: 45vw;
+  width: min(45vw, 420px);
   font-size: 42px;
   background: var(--color-bg-surface);
   color: white;
@@ -113,4 +113,48 @@
   opacity: 0.5;
   cursor: not-allowed;
   background-color: var(--color-bg-surface);
+}
+
+@media (max-width: 900px) {
+  .form {
+    padding: 30px;
+    gap: 12px;
+  }
+
+  .form > input {
+    width: 100%;
+    font-size: 24px;
+  }
+
+  .players {
+    width: min(90%, 520px);
+    padding: 1rem;
+  }
+
+  .player {
+    font-size: 18px;
+  }
+
+  .player > img {
+    width: 35px;
+  }
+
+  .register > button {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 520px) {
+  .form h1 {
+    font-size: 34px;
+  }
+
+  .form > input {
+    padding: 12px;
+  }
+
+  .register > button {
+    padding: 12px;
+  }
 }
